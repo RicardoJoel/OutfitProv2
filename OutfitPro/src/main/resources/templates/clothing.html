@@ -24,29 +24,29 @@
 				<div class="form-group">
 					<label for="clothingType" class="col-sm-2 col-form-label">Tipo de prenda</label>
 					<select class="form-control" th:field="*{clothingType.id}">
-						<option th:each="m: ${listaClothingTypes}" th:value="${m.id}" th:text="${m.name}" th:selected="(${m.id} == *{clothingType})"></option>
+						<option th:each="m: ${listaClothingTypes}" th:value="${m.id}" th:text="${m.name}"></option>
 					</select>
 				</div>
 				
 				<div class="form-group">
 					<label for="commerce" class="col-sm-2 col-form-label">Comercio</label>
 					<select class="form-control" th:field="*{commerce.id}">
-						<option th:each="m: ${listaCommerces}" th:value="${m.id}" th:text="${m.name}" th:selected="(${m.id} == *{commerce.id})"></option>
+						<option th:each="m: ${listaCommerces}" th:value="${m.id}" th:text="${m.name}"></option>
 					</select>
 				</div>
 				
 				<div class="form-group">
 					<label for="mark" class="col-sm-2 col-form-label">Marca</label>
 					<select class="form-control" th:field="*{mark.id}">
-						<option th:each="m: ${listaMarks}" th:value="${m.id}" th:text="${m.name}" th:selected="(${m.id} == *{mark.id})"></option>
+						<option th:each="m: ${listaMarks}" th:value="${m.id}" th:text="${m.name}"></option>
 					</select>
 				</div>
 				
 				<div class="form-group">
 					<label for="gender">Género</label>
 					<select class="form-control" th:field="*{gender}">
-						<option th:value="'Masculino'" th:text="'Masculino'" th:selected="(${'Masculino'} == *{gender})"></option>
-						<option th:value="'Femenino'" th:text="'Femenino'" th:selected="(${'Femenino'} == *{gender})"></option>
+						<option th:value="'Masculino'" th:text="'Masculino'" ></option>
+						<option th:value="'Femenino'" th:text="'Femenino'" ></option>
 					</select>
 					<div class="alert alert-danger" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></div>
 				</div>
@@ -54,11 +54,11 @@
 				<div class="form-group">
 					<label for="size">Talla</label>
 					<select class="form-control" th:field="*{size}">
-						<option th:value="'Extra small'" th:text="'Extra small'" th:selected="(${'Extra_small'} == *{size})"></option>
-						<option th:value="'Small'" th:text="'Small'" th:selected="(${'Small'} == *{size})"></option>
-						<option th:value="'Medium'" th:text="'Medium'" th:selected="(${'Medium'} == *{size})"></option>
-						<option th:value="'Large'" th:text="'Large'" th:selected="(${'Large'} == *{size})"></option>
-						<option th:value="'Extra large'" th:text="'Extra large'" th:selected="(${'Extra large'} == *{size})"></option>
+						<option th:value="'Extra small'" th:text="'Extra small'" ></option>
+						<option th:value="'Small'" th:text="'Small'" ></option>
+						<option th:value="'Medium'" th:text="'Medium'" ></option>
+						<option th:value="'Large'" th:text="'Large'" ></option>
+						<option th:value="'Extra large'" th:text="'Extra large'" ></option>
 					</select>
 					<div class="alert alert-danger" th:if="${#fields.hasErrors('size')}" th:errors="*{size}"></div>
 				</div>
@@ -78,7 +78,7 @@
 				<div class="form-group">
 					<label for="discount" class="col-sm-2 col-form-label">Descuento</label>
 					<select class="form-control" th:field="*{discount.id}">
-						<option th:each="m: ${listaDiscounts}" th:value="${m.id}" th:text="${m.name}" th:selected="(${m.id} == *{discount.id})"></option>
+						<option th:each="m: ${listaDiscounts}" th:value="${m.id}" th:text="${m.name}"></option>
 					</select>
 				</div>
 				
