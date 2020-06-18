@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8"></meta>
+	<title>Outfit Pro - Descuentos</title>
+	<link rel="stylesheet" id="bootstrap-css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/discount.js}"></script>
+</head>
+<body>
+	<div th:replace="fragments/header :: header"></div>
+	<div class="container">
+		<form th:action="@{/discount/registrar}" method="post" th:object="${discount}">
+			<div class="form-group">
+				<input type="hidden" class="form-control" th:field="*{id}"></input>
+
+				<div class="form-group">
+					<label for="name">Nombre</label>
+					<input type="text" th:field="*{name}" class="form-control" id="name"></input>
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label for="description">Descripción</label>
+					<textarea rows="10" th:field="*{description}" class="form-control" id="description"></textarea>
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label for="amount">Monto fijo</label>
+					<input type="number" th:field="*{amount}" class="form-control" id="amount"></input>
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label for="percentage">Porcentaje</label>
+					<input type="number" th:field="*{percentage}" class="form-control" id="percentage"></input>
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('percentage')}" th:errors="*{percentage}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label for="initDate">Fecha inicio</label>
+					<input type="date" th:field="*{initDate}" class="form-control" id="initDate"></input>
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('initDate')}" th:errors="*{initDate}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label for="endDate">Fecha fin</label>
+					<input type="date" th:field="*{endDate}" class="form-control" id="endDate"></input>
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"></div>
+				</div>
+			</div>
+			<button type="submit" class="btn btn-primary">Guardar</button>
+			<a href="/discount/listar" class="btn btn-danger">Cancelar</a>
+		</form>
+	</div>
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
