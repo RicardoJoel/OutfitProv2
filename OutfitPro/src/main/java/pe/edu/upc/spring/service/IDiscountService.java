@@ -7,7 +7,6 @@ import pe.edu.upc.spring.model.Discount;
 
 public interface IDiscountService {
 	public boolean insert(Discount discount);
-	public boolean update(Discount discount);
 	public void delete(int id);
 	public Optional<Discount> findById(int id);
 	List<Discount> findAll();

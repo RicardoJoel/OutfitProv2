@@ -7,7 +7,6 @@ import pe.edu.upc.spring.model.Preference;
 
 public interface IPreferenceService {
 	public boolean insert(Preference preference);
-	public boolean update(Preference preference);
 	public void delete(int id);
 	public Optional<Preference> findById(int id);
 	List<Preference> findAll();

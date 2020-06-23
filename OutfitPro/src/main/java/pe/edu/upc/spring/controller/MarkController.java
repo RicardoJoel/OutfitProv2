@@ -69,25 +69,7 @@ public class MarkController {
 				return "redirect:/marks/listar";
 			}
 			else {
-				model.addAttribute("mensaje", "Ocurrió un error mientras se intentaba registrar la marca.");
-				return "redirect:/marks/irRegistrar";
-			}
-		}
-	}
-	
-	@RequestMapping("/actualizar")
-	public String actualizar(@ModelAttribute @Valid Mark objMark, BindingResult binRes, Model model, RedirectAttributes objRedir) throws ParseException {
-		if (binRes.hasErrors()) {
-			return "redirect:/marks/listar";
-		}
-		else {
-			boolean flag = srvMark.update(objMark);
-			if (flag) {
-				objRedir.addFlashAttribute("mensaje", "Se actualizó correctamente");
-				return "redirect:/marks/listar";
-			}
-			else {
-				model.addAttribute("mensaje", "Ocurrió un error mientras se intentaba actualizar la marca.");
+				model.addAttribute("mensaje", "Ocurrió un error mientras se intentaba guardar la marca.");
 				return "redirect:/marks/irRegistrar";
 			}
 		}
@@ -116,7 +98,7 @@ public class MarkController {
 		}
 		catch (Exception ex) {
 			System.out.println(ex.getMessage());
-			model.put("mensaje","Ocurrió un error mientras se intentaba eliminar la marca.");
+			model.put("mensaje", "Ocurrió un error mientras se intentaba eliminar la marca.");
 			model.put("listaMarks", srvMark.findAll());
 		}
 		return "redirect:/marks/listar";

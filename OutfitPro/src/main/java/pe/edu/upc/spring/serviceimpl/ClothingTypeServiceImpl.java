@@ -15,55 +15,41 @@ import pe.edu.upc.spring.service.IClothingTypeService;
 public class ClothingTypeServiceImpl implements IClothingTypeService {
 
 	@Autowired
-	private IClothingTypeRepository repClothingType;
+	private IClothingTypeRepository rpsClothingType;
 	
 	@Override
 	@Transactional
 	public boolean insert(ClothingType clothingType) {
 		try {
-			return repClothingType.save(clothingType) != null;
+			return rpsClothingType.save(clothingType) != null;
 		}
-		catch (Exception ex) {
-			System.out.println("Sucedió un roche...");
+		catch (Exception e) {
+			System.out.println(e.getMessage());
 			return false;
 		}
 	}
-
-	@Override
-	@Transactional
-	public boolean update(ClothingType clothingType) {
-		try {
-			repClothingType.save(clothingType);
-			return true;
-		}
-		catch (Exception ex) {
-			System.out.println("Sucedió un roche...");
-			return false;
-		}
-	}
-
+	
 	@Override
 	@Transactional
 	public void delete(int id) {
-		repClothingType.deleteById(id);
+		rpsClothingType.deleteById(id);
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public Optional<ClothingType> findById(int id) {
-		return repClothingType.findById(id);
+		return rpsClothingType.findById(id);
 	}
 
 	@Override
 	@Transactional
 	public List<ClothingType> findAll() {
-		return repClothingType.findAll();
+		return rpsClothingType.findAll();
 	}
 
 	@Override
 	@Transactional
 	public List<ClothingType> findByName(String name) {
-		return repClothingType.findByName(name);
+		return rpsClothingType.findByName(name);
 	}
-
 }

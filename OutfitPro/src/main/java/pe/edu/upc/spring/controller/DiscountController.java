@@ -21,21 +21,35 @@ import pe.edu.upc.spring.model.Discount;
 import pe.edu.upc.spring.service.IDiscountService;
 
 @Controller
-@RequestMapping("/discount")
+@RequestMapping("/discounts")
 public class DiscountController {
 
 	@Autowired
 	private IDiscountService srvDiscount;
 	
-	@RequestMapping("/bienvenido")
-	public String irDiscountBienvenido() {
-		return "bienvenido";
-	}
-	
 	@RequestMapping("/")
 	public String irDiscount(Map<String, Object> model) {
+		model.put("discount", new Discount());
 		model.put("listaDiscounts", srvDiscount.findAll());
-		return "listDiscount";
+		return "discountList";
+	}
+	
+	@RequestMapping("/listar")
+	public String listar(Map<String, Object> model) {
+		model.put("discount", new Discount());
+		model.put("listaDiscounts", srvDiscount.findAll());
+		return "discountList";
+	}
+	
+	@RequestMapping("/buscar")
+	public String buscar(Map<String, Object> model, @ModelAttribute Discount discount) throws ParseException {
+		List<Discount> listaDiscounts;
+		listaDiscounts = srvDiscount.findByName(discount.getName());		
+		if (listaDiscounts.isEmpty()) {
+			model.put("mensaje", "No se encontraron registros.");
+		}
+		model.put("listaDiscounts", listaDiscounts);
+		return "discountList";
 	}
 	
 	@RequestMapping("/irRegistrar")
@@ -52,29 +66,11 @@ public class DiscountController {
 		else {
 			boolean flag = srvDiscount.insert(objDiscount);
 			if (flag) {
-				return "redirect:/discount/listar";
+				return "redirect:/discounts/listar";
 			}
 			else {
-				model.addAttribute("mensaje", "Ocurrió un roche");
-				return "redirect:/discount/irRegistrar";
-			}
-		}
-	}
-	
-	@RequestMapping("/actualizar")
-	public String actualizar(@ModelAttribute @Valid Discount objDiscount, BindingResult binRes, Model model, RedirectAttributes objRedir) throws ParseException {
-		if (binRes.hasErrors()) {
-			return "redirect:/discount/listar";
-		}
-		else {
-			boolean flag = srvDiscount.update(objDiscount);
-			if (flag) {
-				objRedir.addFlashAttribute("mensaje", "Se actualizó correctamente");
-				return "redirect:/discount/listar";
-			}
-			else {
-				model.addAttribute("mensaje", "Ocurrió un roche");
-				return "redirect:/discount/irRegistrar";
+				model.addAttribute("mensaje", "Ocurrió un error mientras se intentaba guardar el descuento.");
+				return "redirect:/discounts/irRegistrar";
 			}
 		}
 	}
@@ -83,8 +79,8 @@ public class DiscountController {
 	public String modificar(@PathVariable int id, Model model, RedirectAttributes objRedir) throws ParseException {
 		Optional<Discount> objDiscount = srvDiscount.findById(id);
 		if (objDiscount == null) {
-			objRedir.addFlashAttribute("mensaje", "Ocurrió un roche");
-			return "redirect:/discount/listar";
+			objRedir.addFlashAttribute("mensaje", "Ocurrió un error mientras se intentaba recuperar el descuento.");
+			return "redirect:/discounts/listar";
 		}
 		else {
 			model.addAttribute("discount", objDiscount);
@@ -102,34 +98,9 @@ public class DiscountController {
 		}
 		catch (Exception ex) {
 			System.out.println(ex.getMessage());
-			model.put("mensaje","Ocurrió un roche");
+			model.put("mensaje", "Ocurrió un error mientras se intentaba eliminar el descuento.");
 			model.put("listaDiscounts", srvDiscount.findAll());
 		}
-		return "listDiscount";
-	}
-	
-	@RequestMapping("/listar")
-	public String listar(Map<String, Object> model) {
-		model.put("listaDiscounts", srvDiscount.findAll());
-		return "listDiscount";
-	}
-	
-	@RequestMapping("/irBuscar")
-	public String irBuscar(Model model) {
-		model.addAttribute("discount", new Discount());
-		return "searchDiscount";
-	}
-	
-	@RequestMapping("/buscar")
-	public String buscar(Map<String, Object> model, @ModelAttribute Discount discount) throws ParseException {
-		List<Discount> listaDiscounts;
-		discount.setName(discount.getName());
-		listaDiscounts = srvDiscount.findByName(discount.getName());
-		
-		if (listaDiscounts.isEmpty()) {
-			model.put("mensaje", "No se encontró");
-		}
-		model.put("listaDiscounts", listaDiscounts);
-		return "searchDiscount";
+		return "redirect:/discounts/listar";
 	}
 }

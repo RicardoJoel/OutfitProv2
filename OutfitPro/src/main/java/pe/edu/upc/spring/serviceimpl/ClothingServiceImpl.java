@@ -23,21 +23,8 @@ public class ClothingServiceImpl implements IClothingService {
 		try {
 			return repClothing.save(clothing) != null;
 		}
-		catch (Exception ex) {
-			System.out.println("Sucedió un roche...");
-			return false;
-		}
-	}
-
-	@Override
-	@Transactional
-	public boolean update(Clothing clothing) {
-		try {
-			repClothing.save(clothing);
-			return true;
-		}
-		catch (Exception ex) {
-			System.out.println("Sucedió un roche...");
+		catch (Exception e) {
+			System.out.println(e.getMessage());
 			return false;
 		}
 	}
@@ -66,4 +53,18 @@ public class ClothingServiceImpl implements IClothingService {
 		return repClothing.findByName(name);
 	}
 
+	@Override
+	public List<Clothing> findByMark(String mark) {
+		return repClothing.findByMark(mark);
+	}
+
+	@Override
+	public List<Clothing> findByCommerce(String commerce) {
+		return repClothing.findByCommerce(commerce);
+	}
+
+	@Override
+	public List<Clothing> findByClothingType(String clothingType) {
+		return repClothing.findByClothingType(clothingType);
+	}
 }

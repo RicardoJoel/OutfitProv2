@@ -69,30 +69,12 @@ public class CommerceController {
 				return "redirect:/commerces/listar";
 			}
 			else {
-				model.addAttribute("mensaje", "Ocurrió un error mientras se intentaba registrar el comercio.");
+				model.addAttribute("mensaje", "Ocurrió un error mientras se intentaba guardar el comercio.");
 				return "redirect:/commerces/irRegistrar";
 			}
 		}
 	}
-	
-	@RequestMapping("/actualizar")
-	public String actualizar(@ModelAttribute @Valid Commerce objCommerce, BindingResult binRes, Model model, RedirectAttributes objRedir) throws ParseException {
-		if (binRes.hasErrors()) {
-			return "redirect:/commerces/listar";
-		}
-		else {
-			boolean flag = srvCommerce.update(objCommerce);
-			if (flag) {
-				objRedir.addFlashAttribute("mensaje", "Se actualizó correctamente");
-				return "redirect:/commerces/listar";
-			}
-			else {
-				model.addAttribute("mensaje", "Ocurrió un error mientras se intentaba actualizar el comercio.");
-				return "redirect:/commerces/irRegistrar";
-			}
-		}
-	}
-	
+
 	@RequestMapping("/modificar/{id}")
 	public String modificar(@PathVariable int id, Model model, RedirectAttributes objRedir) throws ParseException {
 		Optional<Commerce> objCommerce = srvCommerce.findById(id);
@@ -116,7 +98,7 @@ public class CommerceController {
 		}
 		catch (Exception ex) {
 			System.out.println(ex.getMessage());
-			model.put("mensaje","Ocurrió un error mientras se intentaba eliminar el comercio.");
+			model.put("mensaje", "Ocurrió un error mientras se intentaba eliminar el comercio.");
 			model.put("listaCommerces", srvCommerce.findAll());
 		}
 		return "redirect:/commerces/listar";

@@ -15,29 +15,16 @@ import pe.edu.upc.spring.service.IPreferenceService;
 public class PreferenceServiceImpl implements IPreferenceService {
 
 	@Autowired
-	private IPreferenceRepository repPreference;
+	private IPreferenceRepository rpsPreference;
 	
 	@Override
 	@Transactional
 	public boolean insert(Preference preference) {
 		try {
-			return repPreference.save(preference) != null;
+			return rpsPreference.save(preference) != null;
 		}
-		catch (Exception ex) {
-			System.out.println("Sucedió un roche...");
-			return false;
-		}
-	}
-
-	@Override
-	@Transactional
-	public boolean update(Preference preference) {
-		try {
-			repPreference.save(preference);
-			return true;
-		}
-		catch (Exception ex) {
-			System.out.println("Sucedió un roche...");
+		catch (Exception e) {
+			System.out.println(e.getMessage());
 			return false;
 		}
 	}
@@ -45,36 +32,36 @@ public class PreferenceServiceImpl implements IPreferenceService {
 	@Override
 	@Transactional
 	public void delete(int id) {
-		repPreference.deleteById(id);
+		rpsPreference.deleteById(id);
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public Optional<Preference> findById(int id) {
-		return repPreference.findById(id);
+		return rpsPreference.findById(id);
 	}
 
 	@Override
 	@Transactional
 	public List<Preference> findAll() {
-		return repPreference.findAll();
+		return rpsPreference.findAll();
 	}
 	
 	@Override
 	@Transactional
 	public List<Preference> findByMark(String mark) {
-		return repPreference.findByMark(mark);
+		return rpsPreference.findByMark(mark);
 	}
 
 	@Override
 	@Transactional
 	public List<Preference> findByCustomer(String customer) {
-		return repPreference.findByCustomer(customer);
+		return rpsPreference.findByCustomer(customer);
 	}
 	
 	@Override
 	@Transactional
 	public List<Preference> findByClothingType(String clothingType) {
-		return repPreference.findByClothingType(clothingType);
+		return rpsPreference.findByClothingType(clothingType);
 	}
 }

@@ -11,12 +11,12 @@ import pe.edu.upc.spring.model.Preference;
 
 @Repository
 public interface IPreferenceRepository extends JpaRepository<Preference, Integer> {
-	@Query("from Preference r where r.mark.name like %:mark%")
-	List<Preference> findByMark(@Param("mark") String mark);
+	@Query("from Preference a where lower(a.mark.name) like lower(concat('%',:name,'%'))")
+	List<Preference> findByMark(@Param("name") String name);
 	
-	@Query("from Preference r where r.customer.name like %:customer%")
-	List<Preference> findByCustomer(@Param("customer") String customer);
+	@Query("from Preference a where lower(a.customer.name) like lower(concat('%',:name,'%'))")
+	List<Preference> findByCustomer(@Param("name") String name);
 	
-	@Query("from Preference r where r.clothingType.name like %:clothingType%")
-	List<Preference> findByClothingType(@Param("clothingType") String clothingType);
+	@Query("from Preference a where lower(a.clothingType.name) like lower(concat('%',:name,'%'))")
+	List<Preference> findByClothingType(@Param("name") String name);
 }

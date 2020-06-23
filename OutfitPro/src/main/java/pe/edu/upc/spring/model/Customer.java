@@ -42,9 +42,8 @@ public class Customer extends User implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Customer(int id, String username, String password, String name, String gender, String address,
-			Date birthdate, boolean enabled, List<Role> roles, boolean premium, Date premActDate, Date premDesDate, int numFreeCons) {
-		super(id, username, password, name, gender, address, birthdate, enabled, roles);
+	public Customer(int id, String username, String password, String name, String gender, String address, boolean enabled, List<Role> roles, boolean premium, Date premActDate, Date premDesDate, int numFreeCons) {
+		super(id, username, password, name, gender, address, enabled, roles);
 		// TODO Auto-generated constructor stub
 		this.premium = premium;
 		this.premActDate = premActDate;

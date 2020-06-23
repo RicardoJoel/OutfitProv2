@@ -29,7 +29,7 @@ import pe.edu.upc.spring.service.IDiscountService;
 import pe.edu.upc.spring.service.IMarkService;
 
 @Controller
-@RequestMapping("/clothing")
+@RequestMapping("/clothings")
 public class ClothingController {
 
 	@Autowired
@@ -37,32 +37,46 @@ public class ClothingController {
 	@Autowired
 	private IMarkService srvMark;
 	@Autowired
-	private ICommerceService srvCommerce;
-	@Autowired
 	private IDiscountService srvDiscount;
+	@Autowired
+	private ICommerceService srvCommerce;
 	@Autowired
 	private IClothingTypeService srvClothingType;
 	
-	@RequestMapping("/bienvenido")
-	public String irClothingBienvenido() {
-		return "bienvenido";
-	}
-	
 	@RequestMapping("/")
 	public String irClothing(Map<String, Object> model) {
+		model.put("clothing", new Clothing());
 		model.put("listaClothings", srvClothing.findAll());
-		return "listClothing";
+		return "clothingList";
+	}
+	
+	@RequestMapping("/listar")
+	public String listar(Map<String, Object> model) {
+		model.put("clothing", new Clothing());
+		model.put("listaClothings", srvClothing.findAll());
+		return "clothingList";
+	}
+	
+	@RequestMapping("/buscar")
+	public String buscar(Map<String, Object> model, @ModelAttribute Clothing clothing) throws ParseException {
+		List<Clothing> listaClothings;
+		listaClothings = srvClothing.findByName(clothing.getName());		
+		if (listaClothings.isEmpty()) {
+			model.put("mensaje", "No se encontraron registros.");
+		}
+		model.put("listaClothings", listaClothings);
+		return "clothingList";
 	}
 	
 	@RequestMapping("/irRegistrar")
 	public String irRegistrar(Model model) {
 		model.addAttribute("listaMarks", srvMark.findAll());
-		model.addAttribute("listaCommerces", srvCommerce.findAll());
 		model.addAttribute("listaDiscounts", srvDiscount.findAll());
+		model.addAttribute("listaCommerces", srvCommerce.findAll());
 		model.addAttribute("listaClothingTypes", srvClothingType.findAll());
 		model.addAttribute("mark", new Mark());
-		model.addAttribute("commerce", new Commerce());
 		model.addAttribute("discount", new Discount());
+		model.addAttribute("commerce", new Commerce());
 		model.addAttribute("clothingType", new ClothingType());
 		model.addAttribute("clothing", new Clothing());
 		return "clothing";
@@ -72,37 +86,19 @@ public class ClothingController {
 	public String registrar(@ModelAttribute @Valid Clothing objClothing, BindingResult binRes, Model model) throws ParseException {
 		if (binRes.hasErrors()) {
 			model.addAttribute("listaMarks", srvMark.findAll());
-			model.addAttribute("listaCommerces", srvCommerce.findAll());
 			model.addAttribute("listaDiscounts", srvDiscount.findAll());
+			model.addAttribute("listaCommerces", srvCommerce.findAll());
 			model.addAttribute("listaClothingTypes", srvClothingType.findAll());
 			return "clothing";
 		}
 		else {
 			boolean flag = srvClothing.insert(objClothing);
 			if (flag) {
-				return "redirect:/clothing/listar";
+				return "redirect:/clothings/listar";
 			}
 			else {
-				model.addAttribute("mensaje", "Ocurrió un roche");
-				return "redirect:/clothing/irRegistrar";
-			}
-		}
-	}
-	
-	@RequestMapping("/actualizar")
-	public String actualizar(@ModelAttribute @Valid Clothing objClothing, BindingResult binRes, Model model, RedirectAttributes objRedir) throws ParseException {
-		if (binRes.hasErrors()) {
-			return "redirect:/clothing/listar";
-		}
-		else {
-			boolean flag = srvClothing.update(objClothing);
-			if (flag) {
-				objRedir.addFlashAttribute("mensaje", "Se actualizó correctamente");
-				return "redirect:/clothing/listar";
-			}
-			else {
-				model.addAttribute("mensaje", "Ocurrió un roche");
-				return "redirect:/clothing/irRegistrar";
+				model.addAttribute("mensaje", "Ocurrió un error mientras se intentaba guardar la prenda.");
+				return "redirect:/clothings/irRegistrar";
 			}
 		}
 	}
@@ -111,13 +107,13 @@ public class ClothingController {
 	public String modificar(@PathVariable int id, Model model, RedirectAttributes objRedir) throws ParseException {
 		Optional<Clothing> objClothing = srvClothing.findById(id);
 		if (objClothing == null) {
-			objRedir.addFlashAttribute("mensaje", "Ocurrió un roche");
-			return "redirect:/clothing/listar";
+			objRedir.addFlashAttribute("mensaje", "Ocurrió un error mientras se intentaba recuperar la prenda.");
+			return "redirect:/clothings/listar";
 		}
 		else {
 			model.addAttribute("listaMarks", srvMark.findAll());
-			model.addAttribute("listaCommerces", srvCommerce.findAll());
 			model.addAttribute("listaDiscounts", srvDiscount.findAll());
+			model.addAttribute("listaCommerces", srvCommerce.findAll());
 			model.addAttribute("listaClothingTypes", srvClothingType.findAll());
 			model.addAttribute("clothing", objClothing);
 			return "clothing";
@@ -134,34 +130,9 @@ public class ClothingController {
 		}
 		catch (Exception ex) {
 			System.out.println(ex.getMessage());
-			model.put("mensaje","Ocurrió un roche");
+			model.put("mensaje", "Ocurrió un error mientras se intentaba eliminar la prenda.");
 			model.put("listaClothings", srvClothing.findAll());
 		}
-		return "listClothing";
-	}
-	
-	@RequestMapping("/listar")
-	public String listar(Map<String, Object> model) {
-		model.put("listaClothings", srvClothing.findAll());
-		return "listClothing";
-	}
-	
-	@RequestMapping("/irBuscar")
-	public String irBuscar(Model model) {
-		model.addAttribute("clothing", new Clothing());
-		return "searchClothing";
-	}
-	
-	@RequestMapping("/buscar")
-	public String buscar(Map<String, Object> model, @ModelAttribute Clothing clothing) throws ParseException {
-		List<Clothing> listaClothings;
-		clothing.setName(clothing.getName());
-		listaClothings = srvClothing.findByName(clothing.getName());
-		
-		if (listaClothings.isEmpty()) {
-			model.put("mensaje", "No se encontró");
-		}
-		model.put("listaClothings", listaClothings);
-		return "searchClothing";
+		return "redirect:/clothings/listar";
 	}
 }

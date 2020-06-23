@@ -23,21 +23,8 @@ public class CommerceServiceImpl implements ICommerceService {
 		try {
 			return rpsCommerce.save(commerce) != null;
 		}
-		catch (Exception ex) {
-			System.out.println("Ocurrió un error mientras se intentaba registrar el comercio.");
-			return false;
-		}
-	}
-
-	@Override
-	@Transactional
-	public boolean update(Commerce commerce) {
-		try {
-			rpsCommerce.save(commerce);
-			return true;
-		}
-		catch (Exception ex) {
-			System.out.println("Ocurrió un error mientras se intentaba actualizar el comercio.");
+		catch (Exception e) {
+			System.out.println(e.getMessage());
 			return false;
 		}
 	}
@@ -65,5 +52,4 @@ public class CommerceServiceImpl implements ICommerceService {
 	public List<Commerce> findByName(String name) {
 		return rpsCommerce.findByName(name);
 	}
-
 }

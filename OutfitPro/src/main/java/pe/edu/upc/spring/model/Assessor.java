@@ -1,7 +1,6 @@
 package pe.edu.upc.spring.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -25,9 +24,8 @@ public class Assessor extends User implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Assessor(int id, String username, String password, String name, String gender, String address,
-			Date birthdate, boolean enabled, List<Role> roles, String reference, int calification) {
-		super(id, username, password, name, gender, address, birthdate, enabled, roles);
+	public Assessor(int id, String username, String password, String name, String gender, String address, boolean enabled, List<Role> roles, String reference, int calification) {
+		super(id, username, password, name, gender, address, enabled, roles);
 		// TODO Auto-generated constructor stub
 		this.reference = reference;
 		this.calification = calification;

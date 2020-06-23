@@ -15,29 +15,16 @@ import pe.edu.upc.spring.service.IDiscountService;
 public class DiscountServiceImpl implements IDiscountService {
 
 	@Autowired
-	private IDiscountRepository repDiscount;
+	private IDiscountRepository rpsDiscount;
 	
 	@Override
 	@Transactional
 	public boolean insert(Discount discount) {
 		try {
-			return repDiscount.save(discount) != null;
+			return rpsDiscount.save(discount) != null;
 		}
-		catch (Exception ex) {
-			System.out.println("Sucedió un roche...");
-			return false;
-		}
-	}
-
-	@Override
-	@Transactional
-	public boolean update(Discount discount) {
-		try {
-			repDiscount.save(discount);
-			return true;
-		}
-		catch (Exception ex) {
-			System.out.println("Sucedió un roche...");
+		catch (Exception e) {
+			System.out.println(e.getMessage());
 			return false;
 		}
 	}
@@ -45,25 +32,24 @@ public class DiscountServiceImpl implements IDiscountService {
 	@Override
 	@Transactional
 	public void delete(int id) {
-		repDiscount.deleteById(id);
+		rpsDiscount.deleteById(id);
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public Optional<Discount> findById(int id) {
-		return repDiscount.findById(id);
+		return rpsDiscount.findById(id);
 	}
 
 	@Override
 	@Transactional
 	public List<Discount> findAll() {
-		return repDiscount.findAll();
+		return rpsDiscount.findAll();
 	}
 
 	@Override
 	@Transactional
 	public List<Discount> findByName(String name) {
-		return repDiscount.findByName(name);
+		return rpsDiscount.findByName(name);
 	}
-
 }

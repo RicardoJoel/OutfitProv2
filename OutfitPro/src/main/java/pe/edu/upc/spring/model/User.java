@@ -1,7 +1,6 @@
 package pe.edu.upc.spring.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,11 +14,6 @@ import javax.persistence.JoinColumn;
 
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.Past;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="Users")
@@ -45,12 +39,6 @@ public class User implements Serializable {
 	
 	@Column(length=500, nullable=true)
 	private String address;
-	
-	@Past(message="No puede seleccionar un día que no existe")
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	@Column(nullable=true)
-	private Date birthdate;
 
 	@Column(nullable=false, columnDefinition = "boolean default true")
 	private boolean enabled = true;
@@ -64,8 +52,7 @@ public class User implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(int id, String username, String password, String name, String gender, String address, Date birthdate,
-			boolean enabled, List<Role> roles) {
+	public User(int id, String username, String password, String name, String gender, String address, boolean enabled, List<Role> roles) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -73,7 +60,6 @@ public class User implements Serializable {
 		this.name = name;
 		this.gender = gender;
 		this.address = address;
-		this.birthdate = birthdate;
 		this.enabled = enabled;
 		this.roles = roles;
 	}
@@ -124,14 +110,6 @@ public class User implements Serializable {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public Date getBirthdate() {
-		return birthdate;
-	}
-
-	public void setBirthdate(Date birthdate) {
-		this.birthdate = birthdate;
 	}
 
 	public boolean isEnabled() {

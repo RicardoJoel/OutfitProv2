@@ -23,21 +23,8 @@ public class MarkServiceImpl implements IMarkService {
 		try {
 			return rpsMark.save(mark) != null;
 		}
-		catch (Exception ex) {
-			System.out.println("Ocurrió un error mientras se intentaba registrar la marca.");
-			return false;
-		}
-	}
-
-	@Override
-	@Transactional
-	public boolean update(Mark mark) {
-		try {
-			rpsMark.save(mark);
-			return true;
-		}
-		catch (Exception ex) {
-			System.out.println("Ocurrió un error mientras se intentaba actualizar la marca.");
+		catch (Exception e) {
+			System.out.println(e.getMessage());
 			return false;
 		}
 	}
@@ -65,5 +52,4 @@ public class MarkServiceImpl implements IMarkService {
 	public List<Mark> findByName(String name) {
 		return rpsMark.findByName(name);
 	}
-
 }

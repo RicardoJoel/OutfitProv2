@@ -1,7 +1,6 @@
 package pe.edu.upc.spring.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -18,9 +17,8 @@ public class Admin extends User implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Admin(int id, String username, String password, String name, String gender, String address, Date birthdate,
-			boolean enabled, List<Role> roles) {
-		super(id, username, password, name, gender, address, birthdate, enabled, roles);
+	public Admin(int id, String username, String password, String name, String gender, String address, boolean enabled, List<Role> roles) {
+		super(id, username, password, name, gender, address, enabled, roles);
 		// TODO Auto-generated constructor stub
 	}
 
