@@ -21,21 +21,35 @@ import pe.edu.upc.spring.model.Commerce;
 import pe.edu.upc.spring.service.ICommerceService;
 
 @Controller
-@RequestMapping("/commerce")
+@RequestMapping("/commerces")
 public class CommerceController {
 
 	@Autowired
 	private ICommerceService srvCommerce;
 	
-	@RequestMapping("/bienvenido")
-	public String irCommerceBienvenido() {
-		return "bienvenido";
-	}
-	
 	@RequestMapping("/")
 	public String irCommerce(Map<String, Object> model) {
+		model.put("commerce", new Commerce());
 		model.put("listaCommerces", srvCommerce.findAll());
-		return "listCommerce";
+		return "commerceList";
+	}
+	
+	@RequestMapping("/listar")
+	public String listar(Map<String, Object> model) {
+		model.put("commerce", new Commerce());
+		model.put("listaCommerces", srvCommerce.findAll());
+		return "commerceList";
+	}
+	
+	@RequestMapping("/buscar")
+	public String buscar(Map<String, Object> model, @ModelAttribute Commerce commerce) throws ParseException {
+		List<Commerce> listaCommerces;
+		listaCommerces = srvCommerce.findByName(commerce.getName());		
+		if (listaCommerces.isEmpty()) {
+			model.put("mensaje", "No se encontraron registros.");
+		}
+		model.put("listaCommerces", listaCommerces);
+		return "commerceList";
 	}
 	
 	@RequestMapping("/irRegistrar")
@@ -52,11 +66,11 @@ public class CommerceController {
 		else {
 			boolean flag = srvCommerce.insert(objCommerce);
 			if (flag) {
-				return "redirect:/commerce/listar";
+				return "redirect:/commerces/listar";
 			}
 			else {
-				model.addAttribute("mensaje", "Ocurrió un roche");
-				return "redirect:/commerce/irRegistrar";
+				model.addAttribute("mensaje", "Ocurrió un error mientras se intentaba registrar el comercio.");
+				return "redirect:/commerces/irRegistrar";
 			}
 		}
 	}
@@ -64,17 +78,17 @@ public class CommerceController {
 	@RequestMapping("/actualizar")
 	public String actualizar(@ModelAttribute @Valid Commerce objCommerce, BindingResult binRes, Model model, RedirectAttributes objRedir) throws ParseException {
 		if (binRes.hasErrors()) {
-			return "redirect:/commerce/listar";
+			return "redirect:/commerces/listar";
 		}
 		else {
 			boolean flag = srvCommerce.update(objCommerce);
 			if (flag) {
 				objRedir.addFlashAttribute("mensaje", "Se actualizó correctamente");
-				return "redirect:/commerce/listar";
+				return "redirect:/commerces/listar";
 			}
 			else {
-				model.addAttribute("mensaje", "Ocurrió un roche");
-				return "redirect:/commerce/irRegistrar";
+				model.addAttribute("mensaje", "Ocurrió un error mientras se intentaba actualizar el comercio.");
+				return "redirect:/commerces/irRegistrar";
 			}
 		}
 	}
@@ -83,8 +97,8 @@ public class CommerceController {
 	public String modificar(@PathVariable int id, Model model, RedirectAttributes objRedir) throws ParseException {
 		Optional<Commerce> objCommerce = srvCommerce.findById(id);
 		if (objCommerce == null) {
-			objRedir.addFlashAttribute("mensaje", "Ocurrió un roche");
-			return "redirect:/commerce/listar";
+			objRedir.addFlashAttribute("mensaje", "Ocurrió un error mientras se intentaba recuperar el comercio.");
+			return "redirect:/commerces/listar";
 		}
 		else {
 			model.addAttribute("commerce", objCommerce);
@@ -102,34 +116,9 @@ public class CommerceController {
 		}
 		catch (Exception ex) {
 			System.out.println(ex.getMessage());
-			model.put("mensaje","Ocurrió un roche");
+			model.put("mensaje","Ocurrió un error mientras se intentaba eliminar el comercio.");
 			model.put("listaCommerces", srvCommerce.findAll());
 		}
-		return "listCommerce";
-	}
-	
-	@RequestMapping("/listar")
-	public String listar(Map<String, Object> model) {
-		model.put("listaCommerces", srvCommerce.findAll());
-		return "listCommerce";
-	}
-	
-	@RequestMapping("/irBuscar")
-	public String irBuscar(Model model) {
-		model.addAttribute("commerce", new Commerce());
-		return "searchCommerce";
-	}
-	
-	@RequestMapping("/buscar")
-	public String buscar(Map<String, Object> model, @ModelAttribute Commerce commerce) throws ParseException {
-		List<Commerce> listaCommerces;
-		commerce.setName(commerce.getName());
-		listaCommerces = srvCommerce.findByName(commerce.getName());
-		
-		if (listaCommerces.isEmpty()) {
-			model.put("mensaje", "No se encontró");
-		}
-		model.put("listaCommerces", listaCommerces);
-		return "searchCommerce";
+		return "redirect:/commerces/listar";
 	}
 }

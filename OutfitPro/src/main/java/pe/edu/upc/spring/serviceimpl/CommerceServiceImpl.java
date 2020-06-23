@@ -15,16 +15,16 @@ import pe.edu.upc.spring.service.ICommerceService;
 public class CommerceServiceImpl implements ICommerceService {
 
 	@Autowired
-	private ICommerceRepository repCommerce;
+	private ICommerceRepository rpsCommerce;
 	
 	@Override
 	@Transactional
 	public boolean insert(Commerce commerce) {
 		try {
-			return repCommerce.save(commerce) != null;
+			return rpsCommerce.save(commerce) != null;
 		}
 		catch (Exception ex) {
-			System.out.println("Sucedió un roche...");
+			System.out.println("Ocurrió un error mientras se intentaba registrar el comercio.");
 			return false;
 		}
 	}
@@ -33,11 +33,11 @@ public class CommerceServiceImpl implements ICommerceService {
 	@Transactional
 	public boolean update(Commerce commerce) {
 		try {
-			repCommerce.save(commerce);
+			rpsCommerce.save(commerce);
 			return true;
 		}
 		catch (Exception ex) {
-			System.out.println("Sucedió un roche...");
+			System.out.println("Ocurrió un error mientras se intentaba actualizar el comercio.");
 			return false;
 		}
 	}
@@ -45,25 +45,25 @@ public class CommerceServiceImpl implements ICommerceService {
 	@Override
 	@Transactional
 	public void delete(int id) {
-		repCommerce.deleteById(id);
+		rpsCommerce.deleteById(id);
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public Optional<Commerce> findById(int id) {
-		return repCommerce.findById(id);
+		return rpsCommerce.findById(id);
 	}
 
 	@Override
 	@Transactional
 	public List<Commerce> findAll() {
-		return repCommerce.findAll();
+		return rpsCommerce.findAll();
 	}
 
 	@Override
 	@Transactional
 	public List<Commerce> findByName(String name) {
-		return repCommerce.findByName(name);
+		return rpsCommerce.findByName(name);
 	}
 
 }

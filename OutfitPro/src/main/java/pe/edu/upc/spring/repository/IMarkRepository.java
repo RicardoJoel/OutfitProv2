@@ -11,6 +11,6 @@ import pe.edu.upc.spring.model.Mark;
 
 @Repository
 public interface IMarkRepository extends JpaRepository<Mark, Integer> {
-	@Query("from Mark r where r.name like %:name%")
+	@Query("from Mark a where lower(a.name) like lower(concat('%',:name,'%'))")
 	List<Mark> findByName(@Param("name") String name);
 }

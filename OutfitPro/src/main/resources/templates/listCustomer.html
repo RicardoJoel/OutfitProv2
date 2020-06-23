@@ -2,7 +2,7 @@
 <html xmlns:lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8"></meta>
-	<title>Outfit Pro - Marcas</title>
+	<title>Outfit Pro - Clientes</title>
 	<link rel="stylesheet" id="bootstrap-css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 	<script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.js"></script>
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -14,27 +14,37 @@
 		<form id="myform">
 			<div class="row clearfix">
 				<div class="col-md-12 column" >
-					<a style="border-bottom-color: green" th:href="@{/mark/irRegistrar}" id="add-row" type="button" class="btn btn-primary btn-md left-block"> 
+					<a style="border-bottom-color: green" th:href="@{/customer/irRegistrar}" id="add-row" type="button" class="btn btn-primary btn-md left-block"> 
 						<span class="glyphicon glyphicon-plus"></span>
 					</a>
-					<a style="border-bottom-color: green" th:href="@{/mark/irBuscar}" id="add-row" type="button" class="btn btn-primary btn-md left-block"> 
+					<a style="border-bottom-color: green" th:href="@{/customer/irBuscar}" id="add-row" type="button" class="btn btn-primary btn-md left-block"> 
 						<span class="glyphicon glyphicon-search"></span> 
 					</a>
 					<table class="table table-bordered table-hover table-striped" id="tab_logic">
 						<thead>
 							<tr>
+								<th class="text-center">Username</th>
 								<th class="text-center">Nombre</th>
-								<th class="text-center">Descripción</th>
+								<th class="text-center">Género</th>
+								<th class="text-center">Dirección</th>
+								<th class="text-center">Fecha de nacimiento</th>
+								<th class="text-center">Tipo</th>
+								<th class="text-center">Asesorías libres</th>
 								<th class="text-center">Operaciones</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="due: ${listaMarks}">
+							<tr th:each="due: ${listaCustomers}">
+								<td th:text="${due.username}"></td>
 								<td th:text="${due.name}"></td>
-								<td th:text="${due.description}"></td>
+								<td th:text="${due.gender}"></td>
+								<td th:text="${due.address}"></td>
+								<td th:text="${#dates.format(due.birthdate,'dd/MM/yyyy')}"></td>
+								<td th:text="${due.premium} ? 'Premium' : '' "></td>
+								<td th:text="${due.numFreeCons}"></td>
 								<td>
-									<a th:href="@{'/mark/modificar/' + ${due.id}}">Editar</a>
-									<a th:href="@{/mark/eliminar?id=} + ${due.id}">Eliminar</a>
+									<a th:href="@{'/customer/modificar/' + ${due.id}}">Editar</a>
+									<a th:href="@{/customer/eliminar?id=} + ${due.id}">Eliminar</a>
 								</td>
 							</tr>
 						</tbody>

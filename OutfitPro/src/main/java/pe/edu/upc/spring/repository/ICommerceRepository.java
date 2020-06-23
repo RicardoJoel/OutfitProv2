@@ -11,6 +11,6 @@ import pe.edu.upc.spring.model.Commerce;
 
 @Repository
 public interface ICommerceRepository extends JpaRepository<Commerce, Integer> {
-	@Query("from Commerce r where r.name like %:name%")
+	@Query("from Commerce a where lower(a.name) like lower(concat('%',:name,'%'))")
 	List<Commerce> findByName(@Param("name") String name);
 }

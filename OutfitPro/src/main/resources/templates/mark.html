@@ -2,16 +2,17 @@
 <html xmlns:lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8"></meta>
-	<title>Outfit Pro - Marcas</title>
+	<title>Outfit Pro - Detalle de la marca</title>
 	<link rel="stylesheet" id="bootstrap-css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-	<script type="text/javascript" th:src="@{/js/mark.js}"></script>
+	<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
 	<div th:replace="fragments/header :: header"></div>
 	<div class="container">
-		<form th:action="@{/mark/registrar}" method="post" th:object="${mark}">
+		<h3 style="margin-bottom:30px">Detalle de la marca</h3>
+		
+		<form th:action="@{/marks/registrar}" method="post" th:object="${mark}">
 			<div class="form-group">
 				<input type="hidden" class="form-control" th:field="*{id}"></input>
 
@@ -27,8 +28,13 @@
 					<div class="alert alert-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
 				</div>
 			</div>
-			<button type="submit" class="btn btn-primary">Guardar</button>
-			<a href="/mark/listar" class="btn btn-danger">Cancelar</a>
+			
+			<div style="margin-top:30px;margin-bottom:30px">
+				<center>
+				<button type="submit" class="btn btn-primary">Guardar</button>
+				<a href="/marks/listar" class="btn btn-secondary">Cancelar</a>
+				</center>
+			</div>
 		</form>
 	</div>
 	<div th:replace="fragments/footer :: footer"></div>

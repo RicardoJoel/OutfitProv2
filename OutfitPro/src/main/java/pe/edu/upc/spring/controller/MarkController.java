@@ -21,21 +21,35 @@ import pe.edu.upc.spring.model.Mark;
 import pe.edu.upc.spring.service.IMarkService;
 
 @Controller
-@RequestMapping("/mark")
+@RequestMapping("/marks")
 public class MarkController {
 
 	@Autowired
 	private IMarkService srvMark;
 	
-	@RequestMapping("/bienvenido")
-	public String irMarkBienvenido() {
-		return "bienvenido";
-	}
-	
 	@RequestMapping("/")
 	public String irMark(Map<String, Object> model) {
+		model.put("mark", new Mark());
 		model.put("listaMarks", srvMark.findAll());
-		return "listMark";
+		return "markList";
+	}
+	
+	@RequestMapping("/listar")
+	public String listar(Map<String, Object> model) {
+		model.put("mark", new Mark());
+		model.put("listaMarks", srvMark.findAll());
+		return "markList";
+	}
+	
+	@RequestMapping("/buscar")
+	public String buscar(Map<String, Object> model, @ModelAttribute Mark mark) throws ParseException {
+		List<Mark> listaMarks;
+		listaMarks = srvMark.findByName(mark.getName());		
+		if (listaMarks.isEmpty()) {
+			model.put("mensaje", "No se encontraron registros.");
+		}
+		model.put("listaMarks", listaMarks);
+		return "markList";
 	}
 	
 	@RequestMapping("/irRegistrar")
@@ -52,11 +66,11 @@ public class MarkController {
 		else {
 			boolean flag = srvMark.insert(objMark);
 			if (flag) {
-				return "redirect:/mark/listar";
+				return "redirect:/marks/listar";
 			}
 			else {
-				model.addAttribute("mensaje", "Ocurrió un roche");
-				return "redirect:/mark/irRegistrar";
+				model.addAttribute("mensaje", "Ocurrió un error mientras se intentaba registrar la marca.");
+				return "redirect:/marks/irRegistrar";
 			}
 		}
 	}
@@ -64,17 +78,17 @@ public class MarkController {
 	@RequestMapping("/actualizar")
 	public String actualizar(@ModelAttribute @Valid Mark objMark, BindingResult binRes, Model model, RedirectAttributes objRedir) throws ParseException {
 		if (binRes.hasErrors()) {
-			return "redirect:/mark/listar";
+			return "redirect:/marks/listar";
 		}
 		else {
 			boolean flag = srvMark.update(objMark);
 			if (flag) {
 				objRedir.addFlashAttribute("mensaje", "Se actualizó correctamente");
-				return "redirect:/mark/listar";
+				return "redirect:/marks/listar";
 			}
 			else {
-				model.addAttribute("mensaje", "Ocurrió un roche");
-				return "redirect:/mark/irRegistrar";
+				model.addAttribute("mensaje", "Ocurrió un error mientras se intentaba actualizar la marca.");
+				return "redirect:/marks/irRegistrar";
 			}
 		}
 	}
@@ -83,8 +97,8 @@ public class MarkController {
 	public String modificar(@PathVariable int id, Model model, RedirectAttributes objRedir) throws ParseException {
 		Optional<Mark> objMark = srvMark.findById(id);
 		if (objMark == null) {
-			objRedir.addFlashAttribute("mensaje", "Ocurrió un roche");
-			return "redirect:/mark/listar";
+			objRedir.addFlashAttribute("mensaje", "Ocurrió un error mientras se intentaba recuperar la marca.");
+			return "redirect:/marks/listar";
 		}
 		else {
 			model.addAttribute("mark", objMark);
@@ -102,34 +116,9 @@ public class MarkController {
 		}
 		catch (Exception ex) {
 			System.out.println(ex.getMessage());
-			model.put("mensaje","Ocurrió un roche");
+			model.put("mensaje","Ocurrió un error mientras se intentaba eliminar la marca.");
 			model.put("listaMarks", srvMark.findAll());
 		}
-		return "listMark";
-	}
-	
-	@RequestMapping("/listar")
-	public String listar(Map<String, Object> model) {
-		model.put("listaMarks", srvMark.findAll());
-		return "listMark";
-	}
-	
-	@RequestMapping("/irBuscar")
-	public String irBuscar(Model model) {
-		model.addAttribute("mark", new Mark());
-		return "searchMark";
-	}
-	
-	@RequestMapping("/buscar")
-	public String buscar(Map<String, Object> model, @ModelAttribute Mark mark) throws ParseException {
-		List<Mark> listaMarks;
-		mark.setName(mark.getName());
-		listaMarks = srvMark.findByName(mark.getName());
-		
-		if (listaMarks.isEmpty()) {
-			model.put("mensaje", "No se encontró");
-		}
-		model.put("listaMarks", listaMarks);
-		return "searchMark";
+		return "redirect:/marks/listar";
 	}
 }

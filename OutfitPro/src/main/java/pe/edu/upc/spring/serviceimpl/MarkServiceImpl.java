@@ -15,16 +15,16 @@ import pe.edu.upc.spring.service.IMarkService;
 public class MarkServiceImpl implements IMarkService {
 
 	@Autowired
-	private IMarkRepository repMark;
+	private IMarkRepository rpsMark;
 	
 	@Override
 	@Transactional
 	public boolean insert(Mark mark) {
 		try {
-			return repMark.save(mark) != null;
+			return rpsMark.save(mark) != null;
 		}
 		catch (Exception ex) {
-			System.out.println("Sucedió un roche...");
+			System.out.println("Ocurrió un error mientras se intentaba registrar la marca.");
 			return false;
 		}
 	}
@@ -33,11 +33,11 @@ public class MarkServiceImpl implements IMarkService {
 	@Transactional
 	public boolean update(Mark mark) {
 		try {
-			repMark.save(mark);
+			rpsMark.save(mark);
 			return true;
 		}
 		catch (Exception ex) {
-			System.out.println("Sucedió un roche...");
+			System.out.println("Ocurrió un error mientras se intentaba actualizar la marca.");
 			return false;
 		}
 	}
@@ -45,25 +45,25 @@ public class MarkServiceImpl implements IMarkService {
 	@Override
 	@Transactional
 	public void delete(int id) {
-		repMark.deleteById(id);
+		rpsMark.deleteById(id);
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public Optional<Mark> findById(int id) {
-		return repMark.findById(id);
+		return rpsMark.findById(id);
 	}
 
 	@Override
 	@Transactional
 	public List<Mark> findAll() {
-		return repMark.findAll();
+		return rpsMark.findAll();
 	}
 
 	@Override
 	@Transactional
 	public List<Mark> findByName(String name) {
-		return repMark.findByName(name);
+		return rpsMark.findByName(name);
 	}
 
 }
