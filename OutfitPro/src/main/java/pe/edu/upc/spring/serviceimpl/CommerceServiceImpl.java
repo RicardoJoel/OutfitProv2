@@ -42,13 +42,13 @@ public class CommerceServiceImpl implements ICommerceService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public List<Commerce> findAll() {
 		return rpsCommerce.findAll();
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public List<Commerce> findByName(String name) {
 		return rpsCommerce.findByName(name);
 	}

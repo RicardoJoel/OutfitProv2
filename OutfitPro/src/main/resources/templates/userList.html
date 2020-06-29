@@ -42,7 +42,7 @@
 								<td th:text="${#dates.format(due.birthdate,'dd/MM/yyyy')}"></td>
 								<td th:text="${due.premium} ? 'Premium' : '' "></td>
 								<td th:text="${due.numFreeCons}"></td>
-								<td>
+								<td style="text-align: center">
 									<a th:href="@{'/customer/modificar/' + ${due.id}}">Editar</a>
 									<a th:href="@{/customer/eliminar?id=} + ${due.id}">Eliminar</a>
 								</td>

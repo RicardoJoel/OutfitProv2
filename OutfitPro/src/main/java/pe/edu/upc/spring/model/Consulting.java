@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -41,20 +43,22 @@ public class Consulting implements Serializable {
 	@Column(nullable=true)
 	private Date premDesDate;
 	
+	@Min(value=0, message="El valor debe estar entre 0 y 5")
+	@Max(value=5, message="El valor debe estar entre 0 y 5")
 	@Column(nullable=false, columnDefinition = "integer default 0")
 	private int calification;
 	
+	@NotNull(message="Debes elegir una opción")
+	@ManyToOne @JoinColumn(nullable=false)
+	private Assessor assessor;
+	
+	@NotNull(message="Debes elegir una opción")
+	@ManyToOne @JoinColumn(nullable=false)
+	private Customer customer;
+
 	@Column(nullable=false, columnDefinition = "boolean default true")
 	private boolean enabled = true;
 	
-	@ManyToOne
-	@JoinColumn(nullable=false)
-	private Assessor assessor;
-	
-	@ManyToOne
-	@JoinColumn(nullable=false)
-	private Customer customer;
-
 	public Consulting() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -62,16 +66,18 @@ public class Consulting implements Serializable {
 
 	public Consulting(int id,
 			@NotNull(message = "Campo obligatorio") @Past(message = "No puede seleccionar un día que no existe") Date premActDate,
-			@Past(message = "No puede seleccionar un día que no existe") Date premDesDate, int calification,
-			boolean enabled, Assessor assessor, Customer customer) {
+			@Past(message = "No puede seleccionar un día que no existe") Date premDesDate,
+			@Min(value = 0, message = "El valor debe estar entre 0 y 5") @Max(value = 5, message = "El valor debe estar entre 0 y 5") int calification,
+			@NotNull(message = "Debes elegir una opción") Assessor assessor,
+			@NotNull(message = "Debes elegir una opción") Customer customer, boolean enabled) {
 		super();
 		this.id = id;
 		this.premActDate = premActDate;
 		this.premDesDate = premDesDate;
 		this.calification = calification;
-		this.enabled = enabled;
 		this.assessor = assessor;
 		this.customer = customer;
+		this.enabled = enabled;
 	}
 
 	public int getId() {
@@ -106,14 +112,6 @@ public class Consulting implements Serializable {
 		this.calification = calification;
 	}
 
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
 	public Assessor getAssessor() {
 		return assessor;
 	}
@@ -130,5 +128,12 @@ public class Consulting implements Serializable {
 		this.customer = customer;
 	}
 
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 	
 }

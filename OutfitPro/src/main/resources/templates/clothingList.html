@@ -16,7 +16,7 @@
 		<form th:action="@{/clothings/buscar}" method="post" th:object="${clothing}">
 			<div style="float:left">
 				<a th:href="@{/clothings/irRegistrar}" id="add-row" type="button" class="btn btn-primary btn-md left-block"> 
-					<span class="glyphicon glyphicon-plus"></span> Nueva marca
+					<span class="glyphicon glyphicon-plus"></span> Nueva prenda
 				</a>
 			</div>
 			
@@ -37,15 +37,13 @@
 						<thead>
 							<tr>
 								<th class="text-center">Nombre</th>
-								<th class="text-center">Tipo prenda</th>
-								<th class="text-center">Comercio</th>
-								<th class="text-center">Marca</th>
-								<th class="text-center">Género</th>
 								<th class="text-center">Talla</th>
 								<th class="text-center">Color</th>
+								<th class="text-center">Marca</th>
+								<th class="text-center">Género</th>
+								<th class="text-center">Stock</th>
 								<th class="text-center">Precio</th>
 								<th class="text-center">Descuento</th>
-								<th class="text-center">Stock</th>
 								<th class="text-center">Operaciones</th>
 							</tr>
 						</thead>
@@ -53,18 +51,25 @@
 						<tbody>
 							<tr th:each="due: ${listaClothings}">
 								<td th:text="${due.name}"></td>
-								<td th:text="${due.clothingType.name}"></td>
-								<td th:text="${due.commerce.name}"></td>
+								<td th:text="${due.size.name}"></td>
+								<td style="text-align: center">
+									<input type="color" th:value="${due.color.hexadecimal}" disabled/></td>
 								<td th:text="${due.mark.name}"></td>
 								<td th:text="${due.gender}"></td>
-								<td th:text="${due.size}"></td>
-								<td th:text="${due.color}"></td>
-								<td th:text="${due.price}"></td>
-								<td th:text="${due.discount == null} ? '' : ${due.discount.amount}"></td>
-								<td th:text="${due.stock}"></td>
-								<td>
-									<a th:href="@{'/clothings/modificar/' + ${due.id}}">Editar</a>
-									<a th:href="@{/clothings/eliminar?id=} + ${due.id}">Eliminar</a>
+								<td th:text="${due.stock} + ' und'" style="text-align:right"></td>
+								<td th:text="'S/ ' + ${#numbers.formatDecimal(due.price, 0, 'COMMA', 2, 'POINT')}" 
+									style="text-align:right"></td>
+								<td th:text="${due.discount == null} ? '' : (${due.discount.amount} > 0 ? 
+											 'S/ ' + ${#numbers.formatDecimal(due.discount.amount, 0, 'COMMA', 2, 'POINT')} : 
+											 ${#numbers.formatDecimal(due.discount.percentage, 0, 'COMMA', 0, 'POINT')} + '%')"
+											 style="text-align:right"></td>
+								<td style="text-align:center">
+									<a th:href="@{'/clothings/modificar/' + ${due.id}}">
+										<span class="glyphicon glyphicon-edit" title="Editar"></span>
+									</a>
+									<a th:href="@{/clothings/eliminar?id=} + ${due.id}">
+										<span class="glyphicon glyphicon-trash" title="Eliminar"></span>
+									</a>
 								</td>
 							</tr>
 						</tbody>

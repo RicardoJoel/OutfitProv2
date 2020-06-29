@@ -9,19 +9,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import pe.edu.upc.spring.repository.IClothingRepository;
 import pe.edu.upc.spring.model.Clothing;
+import pe.edu.upc.spring.model.ClothingType;
+import pe.edu.upc.spring.model.Color;
+import pe.edu.upc.spring.model.Commerce;
+import pe.edu.upc.spring.model.Mark;
+import pe.edu.upc.spring.model.Size;
 import pe.edu.upc.spring.service.IClothingService;
 
 @Service
 public class ClothingServiceImpl implements IClothingService {
 
 	@Autowired
-	private IClothingRepository repClothing;
+	private IClothingRepository rpsClothing;
 	
 	@Override
 	@Transactional
 	public boolean insert(Clothing clothing) {
 		try {
-			return repClothing.save(clothing) != null;
+			return rpsClothing.save(clothing) != null;
 		}
 		catch (Exception e) {
 			System.out.println(e.getMessage());
@@ -32,39 +37,55 @@ public class ClothingServiceImpl implements IClothingService {
 	@Override
 	@Transactional
 	public void delete(int id) {
-		repClothing.deleteById(id);
+		rpsClothing.deleteById(id);
 	}
 
 	@Override
 	@Transactional(readOnly=true)
 	public Optional<Clothing> findById(int id) {
-		return repClothing.findById(id);
+		return rpsClothing.findById(id);
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public List<Clothing> findAll() {
-		return repClothing.findAll();
+		return rpsClothing.findAll();
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public List<Clothing> findByName(String name) {
-		return repClothing.findByName(name);
+		return rpsClothing.findByName(name);
 	}
 
 	@Override
-	public List<Clothing> findByMark(String mark) {
-		return repClothing.findByMark(mark);
+	@Transactional(readOnly=true)
+	public List<Clothing> findBySize(Size size) {
+		return rpsClothing.findBySize(size);
 	}
 
 	@Override
-	public List<Clothing> findByCommerce(String commerce) {
-		return repClothing.findByCommerce(commerce);
+	@Transactional(readOnly=true)
+	public List<Clothing> findByColor(Color color) {
+		return rpsClothing.findByColor(color);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
+	public List<Clothing> findByMark(Mark mark) {
+		return rpsClothing.findByMark(mark);
 	}
 
 	@Override
-	public List<Clothing> findByClothingType(String clothingType) {
-		return repClothing.findByClothingType(clothingType);
+	@Transactional(readOnly=true)
+	public List<Clothing> findByCommerce(Commerce commerce) {
+		return rpsClothing.findByCommerce(commerce);
 	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<Clothing> findByClothingType(ClothingType clothingType) {
+		return rpsClothing.findByClothingType(clothingType);
+	}
+
 }

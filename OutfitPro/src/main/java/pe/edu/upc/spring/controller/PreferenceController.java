@@ -1,7 +1,6 @@
 package pe.edu.upc.spring.controller;
 
 import java.text.ParseException;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -20,7 +19,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pe.edu.upc.spring.model.Preference;
 import pe.edu.upc.spring.model.ClothingType;
 import pe.edu.upc.spring.model.Customer;
-import pe.edu.upc.spring.model.Discount;
 import pe.edu.upc.spring.model.Mark;
 import pe.edu.upc.spring.service.IPreferenceService;
 import pe.edu.upc.spring.service.IClothingTypeService;
@@ -54,24 +52,12 @@ public class PreferenceController {
 		return "preferenceList";
 	}
 	
-	@RequestMapping("/buscar")
-	public String buscar(Map<String, Object> model, @ModelAttribute Preference preference) throws ParseException {
-		List<Preference> listaPreferences;
-		listaPreferences = srvPreference.findByClothingType(preference.getClothingType().getName());		
-		if (listaPreferences.isEmpty()) {
-			model.put("mensaje", "No se encontraron registros.");
-		}
-		model.put("listaPreferences", listaPreferences);
-		return "preferenceList";
-	}
-	
 	@RequestMapping("/irRegistrar")
 	public String irRegistrar(Model model) {
 		model.addAttribute("listaMarks", srvMark.findAll());
 		model.addAttribute("listaCustomers", srvCustomer.findAll());
 		model.addAttribute("listaClothingTypes", srvClothingType.findAll());
 		model.addAttribute("mark", new Mark());
-		model.addAttribute("discount", new Discount());
 		model.addAttribute("customer", new Customer());
 		model.addAttribute("clothingType", new ClothingType());
 		model.addAttribute("preference", new Preference());
@@ -79,7 +65,7 @@ public class PreferenceController {
 	}
 	
 	@RequestMapping("/registrar")
-	public String registrar(@ModelAttribute @Valid Preference objPreference, BindingResult binRes, Model model) throws ParseException {
+	public String registrar(@ModelAttribute @Valid Preference preference, BindingResult binRes, Model model) throws ParseException {
 		if (binRes.hasErrors()) {
 			model.addAttribute("listaMarks", srvMark.findAll());
 			model.addAttribute("listaCustomers", srvCustomer.findAll());
@@ -87,7 +73,7 @@ public class PreferenceController {
 			return "preference";
 		}
 		else {
-			boolean flag = srvPreference.insert(objPreference);
+			boolean flag = srvPreference.insert(preference);
 			if (flag) {
 				return "redirect:/preferences/listar";
 			}

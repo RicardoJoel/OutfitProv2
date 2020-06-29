@@ -50,9 +50,13 @@
 								<td th:text="${due.ruc}"></td>
 								<td th:text="${due.email}"></td>
 								<td th:text="${due.telephone}"></td>
-								<td>
-									<a th:href="@{'/commerces/modificar/' + ${due.id}}">Editar</a>
-									<a th:href="@{/commerces/eliminar?id=} + ${due.id}">Eliminar</a>
+								<td style="text-align: center">
+									<a th:href="@{'/commerces/modificar/' + ${due.id}}">
+										<span class="glyphicon glyphicon-edit" title="Editar"></span>
+									</a>
+									<a th:href="@{/commerces/eliminar?id=} + ${due.id}">
+										<span class="glyphicon glyphicon-trash" title="Eliminar"></span>
+									</a>
 								</td>
 							</tr>
 						</tbody>

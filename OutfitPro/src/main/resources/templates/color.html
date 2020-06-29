@@ -2,7 +2,7 @@
 <html xmlns:lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8"></meta>
-	<title>Outfit Pro - Detalle de la marca</title>
+	<title>Outfit Pro - Detalle del color</title>
 	<link rel="stylesheet" id="bootstrap-css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 	<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -10,9 +10,9 @@
 <body>
 	<div th:replace="fragments/header :: header"></div>
 	<div class="container">
-		<h3 style="margin-bottom:30px">Detalle de la marca</h3>
+		<h3 style="margin-bottom:30px">Detalle del color</h3>
 		
-		<form th:action="@{/marks/registrar}" method="post" th:object="${mark}">
+		<form th:action="@{/colors/registrar}" method="post" th:object="${color}">
 			<div class="form-group">
 				<input type="hidden" th:field="*{id}"></input>
 
@@ -23,16 +23,16 @@
 				</div>
 				
 				<div class="form-group">
-					<label for="description" class="col-form-label">Descripción</label>
-					<textarea rows="6" th:field="*{description}" class="form-control" id="description"></textarea>
-					<div class="alert alert-danger" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></div>
+					<label for="hexadecimal" class="col-form-label">Hexadecimal</label>
+					<input type="color" th:field="*{hexadecimal}" id="hexadecimal"></input>
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('hexadecimal')}" th:errors="*{hexadecimal}"></div>
 				</div>
 			</div>
 			
 			<div style="margin-top:30px;margin-bottom:30px">
 				<center>
 				<button type="submit" class="btn btn-primary">Guardar</button>
-				<a href="/marks/listar" class="btn btn-secondary">Cancelar</a>
+				<a href="/colors/listar" class="btn btn-secondary">Cancelar</a>
 				</center>
 			</div>
 		</form>

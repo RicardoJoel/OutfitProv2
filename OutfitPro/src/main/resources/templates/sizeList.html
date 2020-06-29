@@ -2,7 +2,7 @@
 <html xmlns:lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8"></meta>
-	<title>Outfit Pro - Listado de tipos de prendas</title>
+	<title>Outfit Pro - Listado de tallas</title>
 	<link rel="stylesheet" id="bootstrap-css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.js"></script>
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -11,18 +11,18 @@
 <body>
 	<div th:replace="fragments/header :: header"></div>
 	<div class="container">
-		<h3 style="margin-bottom:30px">Listado de tipos de prendas</h3>
+		<h3 style="margin-bottom:30px">Listado de tallas</h3>
 		
-		<form th:action="@{/clothingTypes/buscar}" method="post" th:object="${clothingType}">
+		<form th:action="@{/sizes/buscar}" method="post" th:object="${size}">
 			<div style="float:left">
-				<a th:href="@{/clothingTypes/irRegistrar}" id="add-row" type="button" class="btn btn-primary btn-md left-block"> 
-					<span class="glyphicon glyphicon-plus"></span> Nuevo tipo de prenda
+				<a th:href="@{/sizes/irRegistrar}" id="add-row" type="button" class="btn btn-primary btn-md left-block"> 
+					<span class="glyphicon glyphicon-plus"></span> Nueva talla
 				</a>
 			</div>
 			
 			<div style="float:right">
 				<input type="text" th:field="*{name}" id="name"></input>
-				<button type="submit" th:href="@{/clothingTypes/listar}" id="add-row" class="btn btn-primary btn-md left-block"> 
+				<button type="submit" th:href="@{/sizes/listar}" id="add-row" class="btn btn-primary btn-md left-block"> 
 					<span class="glyphicon glyphicon-search"></span> 
 				</button>
 			</div>
@@ -37,20 +37,20 @@
 						<thead>
 							<tr>
 								<th class="text-center">Nombre</th>
-								<th class="text-center">Descripción</th>
+								<th class="text-center">Tipo de prenda</th>
 								<th class="text-center">Operaciones</th>
 							</tr>
 						</thead>
 						
 						<tbody>
-							<tr th:each="due: ${listaClothingTypes}">
+							<tr th:each="due: ${listaSizes}">
 								<td th:text="${due.name}"></td>
-								<td th:text="${due.description}"></td>
+								<td th:text="${due.clothingType.name}"></td>
 								<td style="text-align: center">
-									<a th:href="@{'/clothingTypes/modificar/' + ${due.id}}">
+									<a th:href="@{'/sizes/modificar/' + ${due.id}}">
 										<span class="glyphicon glyphicon-edit" title="Editar"></span>
 									</a>
-									<a th:href="@{/clothingTypes/eliminar?id=} + ${due.id}">
+									<a th:href="@{/sizes/eliminar?id=} + ${due.id}">
 										<span class="glyphicon glyphicon-trash" title="Eliminar"></span>
 									</a>
 								</td>

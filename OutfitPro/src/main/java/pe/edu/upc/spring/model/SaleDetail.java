@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="SaleDetail")
@@ -21,40 +24,36 @@ public class SaleDetail implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+	@Min(value=1, message="El valor debe estar entre 1 y 1'000,000")
+	@Max(value=1000000, message="El valor debe estar entre 1 y 1'000,000")
 	@Column(nullable=false)
 	private int quantity;
 	
+	@Min(value=0, message="El valor debe estar entre 0 y 1'000,000")
+	@Max(value=1000000, message="El valor debe estar entre 0 y 1'000,000")
 	@Column(nullable=false)
 	private float subtotal;
 	
+	@Min(value=0, message="El valor debe estar entre 0 y 1'000,000")
+	@Max(value=1000000, message="El valor debe estar entre 0 y 1'000,000")
 	@Column(nullable=false)
 	private float discount;
 	
+	@Min(value=0, message="El valor debe estar entre 0 y 1'000,000")
+	@Max(value=1000000, message="El valor debe estar entre 0 y 1'000,000")
 	@Column(nullable=false)
 	private float subtotalFinal;
-	
-	@Column(nullable=false, columnDefinition = "boolean default true")
-	private boolean enabled = true;
 
-	@ManyToOne
-	@JoinColumn(nullable=false)
+	@NotNull(message="Debes elegir una opción")
+	@ManyToOne @JoinColumn(nullable=false)
 	private Clothing clothing;
 
+	@Column(nullable=false, columnDefinition = "boolean default true")
+	private boolean enabled = true;
+	
 	public SaleDetail() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	public SaleDetail(int id, int quantity, float subtotal, float discount, float subtotalFinal, boolean enabled,
-			Clothing clothing) {
-		super();
-		this.id = id;
-		this.quantity = quantity;
-		this.subtotal = subtotal;
-		this.discount = discount;
-		this.subtotalFinal = subtotalFinal;
-		this.enabled = enabled;
-		this.clothing = clothing;
 	}
 
 	public int getId() {
@@ -97,14 +96,6 @@ public class SaleDetail implements Serializable {
 		this.subtotalFinal = subtotalFinal;
 	}
 
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
-	}
-
 	public Clothing getClothing() {
 		return clothing;
 	}
@@ -112,6 +103,13 @@ public class SaleDetail implements Serializable {
 	public void setClothing(Clothing clothing) {
 		this.clothing = clothing;
 	}
-	
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 	
 }

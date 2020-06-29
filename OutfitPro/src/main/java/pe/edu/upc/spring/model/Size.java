@@ -10,11 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name="Preference")
-public class Preference implements Serializable {
+@Table(name="Size")
+public class Size implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,35 +24,30 @@ public class Preference implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@NotNull(message="Debes elegir una opción")
-	@ManyToOne @JoinColumn(nullable=false)
-	private Mark mark;
-	
-	@NotNull(message="Debes elegir una opción")
-	@ManyToOne @JoinColumn(nullable=false)
-	private Customer customer;
-	
+	@javax.validation.constraints.Size(max=20, message="Máximo 20 caracteres")
+	@NotEmpty(message="Campo obligatorio")
+	@NotBlank(message="No puede estar en blanco")
+	@Column(length=20, nullable=false)
+	private String name;
+
 	@NotNull(message="Debes elegir una opción")
 	@ManyToOne @JoinColumn(nullable=false)
 	private ClothingType clothingType;
 	
 	@Column(nullable=false, columnDefinition = "boolean default true")
 	private boolean enabled = true;
-	
-	public Preference() {
+
+	public Size() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Preference(int id, 
-			@NotNull(message = "Debes elegir una opción") Mark mark,
-			@NotNull(message = "Debes elegir una opción") Customer customer,
-			@NotNull(message = "Debes elegir una opción") ClothingType clothingType,
-			boolean enabled) {
+	public Size(int id,
+			@javax.validation.constraints.Size(max = 20, message = "Máximo 20 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String name,
+			@NotNull(message = "Debes elegir una opción") ClothingType clothingType, boolean enabled) {
 		super();
 		this.id = id;
-		this.mark = mark;
-		this.customer = customer;
+		this.name = name;
 		this.clothingType = clothingType;
 		this.enabled = enabled;
 	}
@@ -63,20 +60,12 @@ public class Preference implements Serializable {
 		this.id = id;
 	}
 
-	public Mark getMark() {
-		return mark;
+	public String getName() {
+		return name;
 	}
 
-	public void setMark(Mark mark) {
-		this.mark = mark;
-	}
-
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public ClothingType getClothingType() {

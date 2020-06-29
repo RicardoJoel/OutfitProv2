@@ -9,7 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -34,6 +37,8 @@ public class Customer extends User implements Serializable {
 	@Column(nullable=true)
 	private Date premDesDate;
 
+	@Min(value=0, message="El valor debe estar entre 0 y 5")
+	@Max(value=5, message="El valor debe estar entre 0 y 5")
 	@Column(nullable=false, columnDefinition = "integer default 0")
 	private int numFreeCons;
 
@@ -42,7 +47,16 @@ public class Customer extends User implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Customer(int id, String username, String password, String name, String gender, String address, boolean enabled, List<Role> roles, boolean premium, Date premActDate, Date premDesDate, int numFreeCons) {
+	public Customer(int id, @Size(max = 20, message = "Máximo 20 caracteres") String username,
+			@Size(max = 20, message = "Máximo 20 caracteres") String password,
+			@Size(max = 50, message = "Máximo 50 caracteres") String name,
+			@Size(max = 10, message = "Máximo 10 caracteres") String gender,
+			@Size(max = 100, message = "Máximo 100 caracteres") String address, 
+			boolean enabled, List<Role> roles,
+			boolean premium, 
+			@Past(message = "No puede seleccionar un día que no existe") Date premActDate,
+			@Past(message = "No puede seleccionar un día que no existe") Date premDesDate,
+			@Min(value = 0, message = "El valor debe estar entre 0 y 5") @Max(value = 5, message = "El valor debe estar entre 0 y 5") int numFreeCons) {
 		super(id, username, password, name, gender, address, enabled, roles);
 		// TODO Auto-generated constructor stub
 		this.premium = premium;
@@ -82,4 +96,5 @@ public class Customer extends User implements Serializable {
 	public void setNumFreeCons(int numFreeCons) {
 		this.numFreeCons = numFreeCons;
 	}
+
 }

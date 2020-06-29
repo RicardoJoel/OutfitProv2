@@ -42,13 +42,13 @@ public class MarkServiceImpl implements IMarkService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public List<Mark> findAll() {
 		return rpsMark.findAll();
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public List<Mark> findByName(String name) {
 		return rpsMark.findByName(name);
 	}

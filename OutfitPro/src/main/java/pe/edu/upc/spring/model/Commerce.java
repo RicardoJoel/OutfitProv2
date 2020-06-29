@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="Commerce")
@@ -21,24 +22,28 @@ public class Commerce implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+	@Size(max=50, message="Máximo 50 caracteres")
 	@NotEmpty(message="Campo obligatorio")
 	@NotBlank(message="No puede estar en blanco")
-	@Column(length=100, nullable=false)
+	@Column(length=50, nullable=false)
 	private String name;
 
+	@Size(max=11, message="Máximo 11 caracteres")
 	@NotEmpty(message="Campo obligatorio")
 	@NotBlank(message="No puede estar en blanco")
-	@Column(length=100, nullable=false)
+	@Column(length=11, nullable=false)
 	private String ruc;
 	
+	@Size(max=20, message="Máximo 20 caracteres")
 	@NotEmpty(message="Campo obligatorio")
 	@NotBlank(message="No puede estar en blanco")
-	@Column(length=100, nullable=false)
+	@Column(length=20, nullable=false)
 	private String email;
 	
+	@Size(max=50, message="Máximo 50 caracteres")
 	@NotEmpty(message="Campo obligatorio")
 	@NotBlank(message="No puede estar en blanco")
-	@Column(length=100, nullable=false)
+	@Column(length=50, nullable=false)
 	private String telephone;
 	
 	@Column(nullable=false, columnDefinition = "boolean default true")
@@ -50,10 +55,10 @@ public class Commerce implements Serializable {
 	}
 
 	public Commerce(int id,
-			@NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String name,
-			@NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String ruc,
-			@NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String email,
-			@NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String telephone,
+			@Size(max = 50, message = "Máximo 50 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String name,
+			@Size(max = 11, message = "Máximo 11 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String ruc,
+			@Size(max = 20, message = "Máximo 20 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String email,
+			@Size(max = 50, message = "Máximo 50 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String telephone,
 			boolean enabled) {
 		super();
 		this.id = id;
@@ -111,4 +116,5 @@ public class Commerce implements Serializable {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
+
 }

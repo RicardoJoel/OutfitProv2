@@ -42,13 +42,13 @@ public class ClothingTypeServiceImpl implements IClothingTypeService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public List<ClothingType> findAll() {
 		return rpsClothingType.findAll();
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public List<ClothingType> findByName(String name) {
 		return rpsClothingType.findByName(name);
 	}

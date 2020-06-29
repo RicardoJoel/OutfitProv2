@@ -11,9 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -27,19 +30,25 @@ public class Discount implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+	@Size(max=50, message="Máximo 50 caracteres")
 	@NotEmpty(message="Campo obligatorio")
 	@NotBlank(message="No puede estar en blanco")
-	@Column(length=100, nullable=false)
+	@Column(length=50, nullable=false)
 	private String name;
 
+	@Size(max=500, message="Máximo 500 caracteres")
 	@Column(length=500, nullable=true)
 	private String description;
 	
+	@Min(value=0, message="El valor debe estar entre 0 y 500.00")
+	@Max(value=500, message="El valor debe estar entre 0 y 500.00")
 	@Column(nullable=false)
 	private float amount;
 	
+	@Min(value=0, message="El valor debe estar entre 0 y 100")
+	@Max(value=100, message="El valor debe estar entre 0 y 100")
 	@Column(nullable=false)
-	private float percentage;
+	private int percentage;
 	
 	@NotNull(message="Campo obligatorio")
 	@Temporal(TemporalType.DATE)
@@ -62,12 +71,11 @@ public class Discount implements Serializable {
 	}
 
 	public Discount(int id,
-			@NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String name,
-			@NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String description,
-			@NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") float amount,
-			@NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") float percentage,
-			@NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") Date initDate,
-			@NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") Date endDate,
+			@Size(max = 50, message = "Máximo 50 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String name,
+			@Size(max = 500, message = "Máximo 500 caracteres") String description,
+			@Min(value = 0, message = "El valor debe estar entre 0 y 500.00") @Max(value = 500, message = "El valor debe estar entre 0 y 500.00") float amount,
+			@Min(value = 0, message = "El valor debe estar entre 0 y 100") @Max(value = 100, message = "El valor debe estar entre 0 y 100") int percentage,
+			@NotNull(message = "Campo obligatorio") Date initDate, @NotNull(message = "Campo obligatorio") Date endDate,
 			boolean enabled) {
 		super();
 		this.id = id;
@@ -112,11 +120,11 @@ public class Discount implements Serializable {
 		this.amount = amount;
 	}
 
-	public float getPercentage() {
+	public int getPercentage() {
 		return percentage;
 	}
 
-	public void setPercentage(float percentage) {
+	public void setPercentage(int percentage) {
 		this.percentage = percentage;
 	}
 

@@ -1,6 +1,7 @@
 package pe.edu.upc.spring.controller;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -15,18 +16,23 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pe.edu.upc.spring.model.Clothing;
 import pe.edu.upc.spring.model.ClothingType;
+import pe.edu.upc.spring.model.Color;
 import pe.edu.upc.spring.model.Commerce;
 import pe.edu.upc.spring.model.Discount;
 import pe.edu.upc.spring.model.Mark;
+import pe.edu.upc.spring.model.Size;
 import pe.edu.upc.spring.service.IClothingService;
 import pe.edu.upc.spring.service.IClothingTypeService;
+import pe.edu.upc.spring.service.IColorService;
 import pe.edu.upc.spring.service.ICommerceService;
 import pe.edu.upc.spring.service.IDiscountService;
 import pe.edu.upc.spring.service.IMarkService;
+import pe.edu.upc.spring.service.ISizeService;
 
 @Controller
 @RequestMapping("/clothings")
@@ -34,6 +40,10 @@ public class ClothingController {
 
 	@Autowired
 	private IClothingService srvClothing;
+	@Autowired
+	private ISizeService srvSize;
+	@Autowired
+	private IColorService srvColor;
 	@Autowired
 	private IMarkService srvMark;
 	@Autowired
@@ -59,8 +69,7 @@ public class ClothingController {
 	
 	@RequestMapping("/buscar")
 	public String buscar(Map<String, Object> model, @ModelAttribute Clothing clothing) throws ParseException {
-		List<Clothing> listaClothings;
-		listaClothings = srvClothing.findByName(clothing.getName());		
+		List<Clothing> listaClothings = srvClothing.findByName(clothing.getName());		
 		if (listaClothings.isEmpty()) {
 			model.put("mensaje", "No se encontraron registros.");
 		}
@@ -70,10 +79,14 @@ public class ClothingController {
 	
 	@RequestMapping("/irRegistrar")
 	public String irRegistrar(Model model) {
+		model.addAttribute("listaSizes", srvSize.findAll());
+		model.addAttribute("listaColors", srvColor.findAll());
 		model.addAttribute("listaMarks", srvMark.findAll());
 		model.addAttribute("listaDiscounts", srvDiscount.findAll());
 		model.addAttribute("listaCommerces", srvCommerce.findAll());
 		model.addAttribute("listaClothingTypes", srvClothingType.findAll());
+		model.addAttribute("size", new Size());
+		model.addAttribute("color", new Color());
 		model.addAttribute("mark", new Mark());
 		model.addAttribute("discount", new Discount());
 		model.addAttribute("commerce", new Commerce());
@@ -83,8 +96,10 @@ public class ClothingController {
 	}
 	
 	@RequestMapping("/registrar")
-	public String registrar(@ModelAttribute @Valid Clothing objClothing, BindingResult binRes, Model model) throws ParseException {
+	public String registrar(@ModelAttribute @Valid Clothing clothing, BindingResult binRes, Model model) throws ParseException {
 		if (binRes.hasErrors()) {
+			model.addAttribute("listaSizes", srvSize.findAll());
+			model.addAttribute("listaColors", srvColor.findAll());
 			model.addAttribute("listaMarks", srvMark.findAll());
 			model.addAttribute("listaDiscounts", srvDiscount.findAll());
 			model.addAttribute("listaCommerces", srvCommerce.findAll());
@@ -92,7 +107,9 @@ public class ClothingController {
 			return "clothing";
 		}
 		else {
-			boolean flag = srvClothing.insert(objClothing);
+			if (clothing.getDiscount().getId() == 0)
+				clothing.setDiscount(null);
+			boolean flag = srvClothing.insert(clothing);
 			if (flag) {
 				return "redirect:/clothings/listar";
 			}
@@ -111,6 +128,8 @@ public class ClothingController {
 			return "redirect:/clothings/listar";
 		}
 		else {
+			model.addAttribute("listaSizes", srvSize.findAll());
+			model.addAttribute("listaColors", srvColor.findAll());
 			model.addAttribute("listaMarks", srvMark.findAll());
 			model.addAttribute("listaDiscounts", srvDiscount.findAll());
 			model.addAttribute("listaCommerces", srvCommerce.findAll());
@@ -134,5 +153,15 @@ public class ClothingController {
 			model.put("listaClothings", srvClothing.findAll());
 		}
 		return "redirect:/clothings/listar";
+	}
+	
+	@RequestMapping("/sizesByClothingType") @ResponseBody
+	public List<Size> sizesByClothingType(@RequestParam(value="clothingTypeId", required=true) int clothingTypeId) 
+			throws ParseException {
+		List<Size> listaSizes = new ArrayList<Size>();
+		Optional<ClothingType> clothingType = srvClothingType.findById(clothingTypeId);
+		if (clothingType != null)
+			listaSizes = srvSize.findByClothingType(clothingType.get());
+		return listaSizes;
 	}
 }

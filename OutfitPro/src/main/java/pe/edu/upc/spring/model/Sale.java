@@ -17,8 +17,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -32,6 +35,7 @@ public class Sale implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+	@Min(value=1, message="El valor debe ser positivo")
 	@Column(nullable=false)
 	private float amount;
 	
@@ -40,42 +44,47 @@ public class Sale implements Serializable {
 	@Column(nullable=false)
 	private Date paymentDate;
 	
+	@Size(max=20, message="Máximo 20 caracteres")
 	@NotEmpty(message="Campo obligatorio")
 	@NotBlank(message="No puede estar en blanco")
-	@Column(length=100, nullable=false)
+	@Column(length=20, nullable=false)
 	private String paymentMethod;
 	
-	@Column(length=100, nullable=false)
+	@Size(max=20, message="Máximo 20 caracteres")
+	@NotEmpty(message="Campo obligatorio")
+	@NotBlank(message="No puede estar en blanco")
+	@Column(length=20, nullable=false)
 	private String status;
 	
-	@Column(nullable=false, columnDefinition = "boolean default true")
-	private boolean enabled = true;
-
-	@ManyToOne
-	@JoinColumn(nullable=false)
+	@NotNull(message="Campo obligatorio")
+	@ManyToOne @JoinColumn(nullable=false)
 	private Customer customer;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name="sale_id")
 	private List<SaleDetail> details;
 	
+	@Column(nullable=false, columnDefinition = "boolean default true")
+	private boolean enabled = true;
+	
 	public Sale() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Sale(int id, float amount, Date paymentDate,
-			@NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String paymentMethod,
-			String status, boolean enabled, Customer customer, List<SaleDetail> details) {
+	public Sale(int id, @Min(value = 1, message = "El valor debe ser positivo") float amount, Date paymentDate,
+			@Size(max = 20, message = "Máximo 20 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String paymentMethod,
+			@Size(max = 20, message = "Máximo 20 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String status,
+			@NotNull(message = "Campo obligatorio") Customer customer, List<SaleDetail> details, boolean enabled) {
 		super();
 		this.id = id;
 		this.amount = amount;
 		this.paymentDate = paymentDate;
 		this.paymentMethod = paymentMethod;
 		this.status = status;
-		this.enabled = enabled;
 		this.customer = customer;
 		this.details = details;
+		this.enabled = enabled;
 	}
 
 	public int getId() {
@@ -118,6 +127,22 @@ public class Sale implements Serializable {
 		this.status = status;
 	}
 
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+
+	public List<SaleDetail> getDetails() {
+		return details;
+	}
+
+	public void setDetails(List<SaleDetail> details) {
+		this.details = details;
+	}
+
 	public boolean isEnabled() {
 		return enabled;
 	}
@@ -126,19 +151,4 @@ public class Sale implements Serializable {
 		this.enabled = enabled;
 	}
 
-	public Customer getCustomer() {
-		return customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-	
-	public List<SaleDetail> getDetails() {
-		return details;
-	}
-
-	public void setDetails(List<SaleDetail> details) {
-		this.details = details;
-	}
 }

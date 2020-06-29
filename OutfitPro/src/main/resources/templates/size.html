@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8"></meta>
+	<title>Outfit Pro - Detalle de la talla</title>
+	<link rel="stylesheet" id="bootstrap-css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+	<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+	<div th:replace="fragments/header :: header"></div>
+	<div class="container">
+		<h3 style="margin-bottom:30px">Detalle de la talla</h3>
+		
+		<form th:action="@{/sizes/registrar}" method="post" th:object="${size}">
+			<div class="form-group">
+				<input type="hidden" th:field="*{id}"></input>
+
+				<div class="form-group">
+					<label for="clothingType" class="col-form-label">Tipo de prenda</label>
+					<select class="form-control" th:field="*{clothingType.id}">
+						<option selected disabled hidden th:value="0" th:text="'-- Selecciona una opción --'"></option>
+						<option th:each="m: ${listaClothingTypes}" th:value="${m.id}" th:text="${m.name}"></option>
+					</select>
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('clothingType')}" th:errors="*{clothingType}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label for="name" class="col-form-label">Nombre</label>
+					<input type="text" th:field="*{name}" class="form-control" id="name"></input>
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+				</div>
+			</div>
+			
+			<div style="margin-top:30px;margin-bottom:30px">
+				<center>
+				<button type="submit" class="btn btn-primary">Guardar</button>
+				<a href="/sizes/listar" class="btn btn-secondary">Cancelar</a>
+				</center>
+			</div>
+		</form>
+	</div>
+	<div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>

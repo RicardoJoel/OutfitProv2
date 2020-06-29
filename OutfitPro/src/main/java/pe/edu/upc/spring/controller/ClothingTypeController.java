@@ -59,12 +59,12 @@ public class ClothingTypeController {
 	}
 	
 	@RequestMapping("/registrar")
-	public String registrar(@ModelAttribute @Valid ClothingType objClothingType, BindingResult binRes, Model model) throws ParseException {
+	public String registrar(@ModelAttribute @Valid ClothingType clothingType, BindingResult binRes, Model model) throws ParseException {
 		if (binRes.hasErrors()) {
 			return "clothingType";
 		}
 		else {
-			boolean flag = srvClothingType.insert(objClothingType);
+			boolean flag = srvClothingType.insert(clothingType);
 			if (flag) {
 				return "redirect:/clothingTypes/listar";
 			}

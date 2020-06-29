@@ -23,21 +23,8 @@ public class CustomerServiceImpl implements ICustomerService {
 		try {
 			return repCustomer.save(customer) != null;
 		}
-		catch (Exception ex) {
-			System.out.println("Sucedió un roche...");
-			return false;
-		}
-	}
-
-	@Override
-	@Transactional
-	public boolean update(Customer customer) {
-		try {
-			repCustomer.save(customer);
-			return true;
-		}
-		catch (Exception ex) {
-			System.out.println("Sucedió un roche...");
+		catch (Exception e) {
+			System.out.println(e.getMessage());
 			return false;
 		}
 	}
@@ -55,13 +42,13 @@ public class CustomerServiceImpl implements ICustomerService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public List<Customer> findAll() {
 		return repCustomer.findAll();
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public List<Customer> findByName(String name) {
 		return repCustomer.findByName(name);
 	}

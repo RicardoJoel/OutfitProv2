@@ -59,12 +59,12 @@ public class MarkController {
 	}
 	
 	@RequestMapping("/registrar")
-	public String registrar(@ModelAttribute @Valid Mark objMark, BindingResult binRes, Model model) throws ParseException {
+	public String registrar(@ModelAttribute @Valid Mark mark, BindingResult binRes, Model model) throws ParseException {
 		if (binRes.hasErrors()) {
 			return "mark";
 		}
 		else {
-			boolean flag = srvMark.insert(objMark);
+			boolean flag = srvMark.insert(mark);
 			if (flag) {
 				return "redirect:/marks/listar";
 			}

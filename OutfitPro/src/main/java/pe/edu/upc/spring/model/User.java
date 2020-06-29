@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="Users")
@@ -25,19 +26,24 @@ public class User implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	
 	private int id;
 	
-	@Column(length=100, nullable=false, unique=true)
+	@Size(max=20, message="Máximo 20 caracteres")
+	@Column(length=20, nullable=false, unique=true)
 	private String username;
 	
-	@Column(length=100, nullable=false)
+	@Size(max=20, message="Máximo 20 caracteres")
+	@Column(length=20, nullable=false)
 	private String password;
 	
-	@Column(length=100, nullable=true)
+	@Size(max=50, message="Máximo 50 caracteres")
+	@Column(length=50, nullable=true)
 	private String name;
 	
-	@Column(length=100, nullable=true)
+	@Size(max=10, message="Máximo 10 caracteres")
+	@Column(length=10, nullable=true)
 	private String gender;
 	
-	@Column(length=500, nullable=true)
+	@Size(max=100, message="Máximo 100 caracteres")
+	@Column(length=100, nullable=true)
 	private String address;
 
 	@Column(nullable=false, columnDefinition = "boolean default true")
@@ -52,7 +58,12 @@ public class User implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(int id, String username, String password, String name, String gender, String address, boolean enabled, List<Role> roles) {
+	public User(int id, 
+			@Size(max = 20, message = "Máximo 20 caracteres") String username,
+			@Size(max = 20, message = "Máximo 20 caracteres") String password,
+			@Size(max = 50, message = "Máximo 50 caracteres") String name,
+			@Size(max = 10, message = "Máximo 10 caracteres") String gender,
+			@Size(max = 100, message = "Máximo 100 caracteres") String address, boolean enabled, List<Role> roles) {
 		super();
 		this.id = id;
 		this.username = username;
@@ -127,4 +138,5 @@ public class User implements Serializable {
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
+
 }

@@ -13,8 +13,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name="Mark")
-public class Mark implements Serializable {
+@Table(name="Color")
+public class Color implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,30 +22,34 @@ public class Mark implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@Size(max=50, message="Máximo 50 caracteres")
+	@Size(max=20, message="Máximo 20 caracteres")
 	@NotEmpty(message="Campo obligatorio")
 	@NotBlank(message="No puede estar en blanco")
-	@Column(length=50, nullable=false)
+	@Column(length=20, nullable=false)
 	private String name;
 
-	@Column(length=500, nullable=true)
-	private String description;
+	@Size(max=10, message="Máximo 10 caracteres")
+	@NotEmpty(message="Campo obligatorio")
+	@NotBlank(message="No puede estar en blanco")
+	@Column(length=10, nullable=true)
+	private String hexadecimal;
 	
 	@Column(nullable=false, columnDefinition = "boolean default true")
 	private boolean enabled = true;
 
-	public Mark() {
+	public Color() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Mark(int id,
-			@Size(max = 50, message = "Máximo 50 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String name,
-			String description, boolean enabled) {
+	public Color(int id,
+			@Size(max = 20, message = "Máximo 20 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String name,
+			@Size(max = 10, message = "Máximo 10 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String hexadecimal,
+			boolean enabled) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.description = description;
+		this.hexadecimal = hexadecimal;
 		this.enabled = enabled;
 	}
 
@@ -65,12 +69,12 @@ public class Mark implements Serializable {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getHexadecimal() {
+		return hexadecimal;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setHexadecimal(String hexadecimal) {
+		this.hexadecimal = hexadecimal;
 	}
 
 	public boolean isEnabled() {

@@ -59,12 +59,12 @@ public class DiscountController {
 	}
 	
 	@RequestMapping("/registrar")
-	public String registrar(@ModelAttribute @Valid Discount objDiscount, BindingResult binRes, Model model) throws ParseException {
+	public String registrar(@ModelAttribute @Valid Discount discount, BindingResult binRes, Model model) throws ParseException {
 		if (binRes.hasErrors()) {
 			return "discount";
 		}
 		else {
-			boolean flag = srvDiscount.insert(objDiscount);
+			boolean flag = srvDiscount.insert(discount);
 			if (flag) {
 				return "redirect:/discounts/listar";
 			}

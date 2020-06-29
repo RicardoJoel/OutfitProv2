@@ -6,6 +6,7 @@
 	<link rel="stylesheet" id="bootstrap-css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 	<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+	<script type="text/javascript" th:src="@{/js/clothing.js}"></script>
 </head>
 <body>
 	<div th:replace="fragments/header :: header"></div>
@@ -14,80 +15,91 @@
 		
 		<form th:action="@{/clothings/registrar}" method="post" th:object="${clothing}">
 			<div class="form-group">
-				<input type="hidden" class="form-control" th:field="*{id}"></input>
+				<input type="hidden" th:field="*{id}"></input>
 
 				<div class="form-group">
-					<label for="name">Nombre</label>
+					<label for="name" class="col-form-label">Nombre</label>
 					<input type="text" th:field="*{name}" class="form-control" id="name"></input>
 					<div class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
 				</div>
 				
 				<div class="form-group">
-					<label for="clothingType" class="col-sm-2 col-form-label">Tipo de prenda</label>
-					<select class="form-control" th:field="*{clothingType.id}">
+					<label for="clothingType" class="col-form-label">Tipo de prenda</label>
+					<select id="slt-type" class="form-control" th:field="*{clothingType.id}">
+						<option selected disabled hidden th:value="0" th:text="'-- Selecciona una opción --'"></option>
 						<option th:each="m: ${listaClothingTypes}" th:value="${m.id}" th:text="${m.name}"></option>
 					</select>
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('clothingType')}" th:errors="*{clothingType}"></div>
 				</div>
 				
 				<div class="form-group">
-					<label for="commerce" class="col-sm-2 col-form-label">Comercio</label>
-					<select class="form-control" th:field="*{commerce.id}">
-						<option th:each="m: ${listaCommerces}" th:value="${m.id}" th:text="${m.name}"></option>
-					</select>
-				</div>
-				
-				<div class="form-group">
-					<label for="mark" class="col-sm-2 col-form-label">Marca</label>
-					<select class="form-control" th:field="*{mark.id}">
-						<option th:each="m: ${listaMarks}" th:value="${m.id}" th:text="${m.name}"></option>
-					</select>
-				</div>
-				
-				<div class="form-group">
-					<label for="gender">Género</label>
-					<select class="form-control" th:field="*{gender}">
-						<option th:value="'Masculino'" th:text="'Masculino'" ></option>
-						<option th:value="'Femenino'" th:text="'Femenino'" ></option>
-					</select>
-					<div class="alert alert-danger" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></div>
-				</div>
-								
-				<div class="form-group">
-					<label for="size">Talla</label>
-					<select class="form-control" th:field="*{size}">
-						<option th:value="'Extra small'" th:text="'Extra small'" ></option>
-						<option th:value="'Small'" th:text="'Small'" ></option>
-						<option th:value="'Medium'" th:text="'Medium'" ></option>
-						<option th:value="'Large'" th:text="'Large'" ></option>
-						<option th:value="'Extra large'" th:text="'Extra large'" ></option>
+					<label for="size" class="col-form-label">Talla</label>
+					<select id="slt-size" class="form-control" th:field="*{size.id}">
+						<option selected disabled hidden th:value="0" th:text="'-- Selecciona una opción --'"></option>
 					</select>
 					<div class="alert alert-danger" th:if="${#fields.hasErrors('size')}" th:errors="*{size}"></div>
 				</div>
 				
 				<div class="form-group">
-					<label for="color">Color</label>
-					<input type="color" th:field="*{color}" id="color"></input>
+					<label for="color" class="col-form-label">Color</label>
+					<select class="form-control" th:field="*{color.id}">
+						<option selected disabled hidden th:value="0" th:text="'-- Selecciona una opción --'"></option>
+						<option th:each="m: ${listaColors}" th:value="${m.id}" th:text="${m.name}"></option>
+					</select>
 					<div class="alert alert-danger" th:if="${#fields.hasErrors('color')}" th:errors="*{color}"></div>
 				</div>
 				
 				<div class="form-group">
-					<label for="price">Precio</label>
+					<label for="mark" class="col-form-label">Marca</label>
+					<select class="form-control" th:field="*{mark.id}">
+						<option selected disabled hidden th:value="0" th:text="'-- Selecciona una opción --'"></option>
+						<option th:each="m: ${listaMarks}" th:value="${m.id}" th:text="${m.name}"></option>
+					</select>
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('mark')}" th:errors="*{mark}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label for="gender" class="col-form-label">Género</label>
+					<select class="form-control" th:field="*{gender}">
+						<option selected disabled hidden th:value="0" th:text="'-- Selecciona una opción --'"></option>
+						<option th:value="'Masculino'" th:text="'Masculino'" ></option>
+						<option th:value="'Femenino'" th:text="'Femenino'" ></option>
+						<option th:value="'Unisex'" th:text="'Unisex'" ></option>
+					</select>
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label for="stock" class="col-form-label">Stock (und)</label>
+					<input type="number" th:field="*{stock}" class="form-control" id="stock"></input>
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></div>
+				</div>
+				
+				<div class="form-group">
+					<label for="price" class="col-form-label">Precio (S/)</label>
 					<input type="number" th:field="*{price}" class="form-control" id="price"></input>
 					<div class="alert alert-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
 				</div>
 				
 				<div class="form-group">
-					<label for="discount" class="col-sm-2 col-form-label">Descuento</label>
+					<label for="discount" class="col-form-label">Descuento</label>
 					<select class="form-control" th:field="*{discount.id}">
+						<option selected disabled hidden th:value="0" th:text="'-- Selecciona una opción --'"></option>
+						<option th:value="0" th:text="'Ninguno'"></option>
 						<option th:each="m: ${listaDiscounts}" th:value="${m.id}" th:text="${m.name}"></option>
 					</select>
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}"></div>
 				</div>
 				
 				<div class="form-group">
-					<label for="stock">Stock</label>
-					<input type="number" th:field="*{stock}" class="form-control" id="stock"></input>
-					<div class="alert alert-danger" th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}"></div>
+					<label for="commerce" class="col-form-label">Comercio</label>
+					<select class="form-control" th:field="*{commerce.id}">
+						<option selected disabled hidden th:value="0" th:text="'-- Selecciona una opción --'"></option>
+						<option th:each="m: ${listaCommerces}" th:value="${m.id}" th:text="${m.name}"></option>
+					</select>
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('commerce')}" th:errors="*{commerce}"></div>
 				</div>
+	
 			</div>
 			
 			<div style="margin-top:30px;margin-bottom:30px">

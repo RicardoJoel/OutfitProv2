@@ -59,12 +59,12 @@ public class CommerceController {
 	}
 	
 	@RequestMapping("/registrar")
-	public String registrar(@ModelAttribute @Valid Commerce objCommerce, BindingResult binRes, Model model) throws ParseException {
+	public String registrar(@ModelAttribute @Valid Commerce commerce, BindingResult binRes, Model model) throws ParseException {
 		if (binRes.hasErrors()) {
 			return "commerce";
 		}
 		else {
-			boolean flag = srvCommerce.insert(objCommerce);
+			boolean flag = srvCommerce.insert(commerce);
 			if (flag) {
 				return "redirect:/commerces/listar";
 			}

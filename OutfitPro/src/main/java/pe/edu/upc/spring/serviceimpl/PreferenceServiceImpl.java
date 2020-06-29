@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pe.edu.upc.spring.repository.IPreferenceRepository;
+import pe.edu.upc.spring.model.ClothingType;
+import pe.edu.upc.spring.model.Customer;
+import pe.edu.upc.spring.model.Mark;
 import pe.edu.upc.spring.model.Preference;
 import pe.edu.upc.spring.service.IPreferenceService;
 
@@ -42,26 +45,26 @@ public class PreferenceServiceImpl implements IPreferenceService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(readOnly=true)
 	public List<Preference> findAll() {
 		return rpsPreference.findAll();
 	}
 	
 	@Override
-	@Transactional
-	public List<Preference> findByMark(String mark) {
+	@Transactional(readOnly=true)
+	public List<Preference> findByMark(Mark mark) {
 		return rpsPreference.findByMark(mark);
 	}
 
 	@Override
-	@Transactional
-	public List<Preference> findByCustomer(String customer) {
+	@Transactional(readOnly=true)
+	public List<Preference> findByCustomer(Customer customer) {
 		return rpsPreference.findByCustomer(customer);
 	}
 	
 	@Override
-	@Transactional
-	public List<Preference> findByClothingType(String clothingType) {
+	@Transactional(readOnly=true)
+	public List<Preference> findByClothingType(ClothingType clothingType) {
 		return rpsPreference.findByClothingType(clothingType);
 	}
 }

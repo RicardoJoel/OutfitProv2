@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="ClothingType")
@@ -21,11 +22,13 @@ public class ClothingType implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
+	@Size(max=50, message="Máximo 50 caracteres")
 	@NotEmpty(message="Campo obligatorio")
 	@NotBlank(message="No puede estar en blanco")
-	@Column(length=100, nullable=false)
+	@Column(length=50, nullable=false)
 	private String name;
 
+	@Size(max=500, message="Máximo 500 caracteres")
 	@Column(length=500, nullable=true)
 	private String description;
 	
@@ -38,9 +41,8 @@ public class ClothingType implements Serializable {
 	}
 
 	public ClothingType(int id,
-			@NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String name,
-			@NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String description,
-			boolean enabled) {
+			@Size(max = 50, message = "Máximo 50 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String name,
+			@Size(max = 500, message = "Máximo 500 caracteres") String description, boolean enabled) {
 		super();
 		this.id = id;
 		this.name = name;
