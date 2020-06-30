@@ -7,6 +7,8 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,7 +24,7 @@ import pe.edu.upc.spring.model.Customer;
 import pe.edu.upc.spring.model.Mark;
 import pe.edu.upc.spring.service.IPreferenceService;
 import pe.edu.upc.spring.service.IClothingTypeService;
-import pe.edu.upc.spring.service.ICustomerService;
+//import pe.edu.upc.spring.service.ICustomerService;
 import pe.edu.upc.spring.service.IMarkService;
 
 @Controller
@@ -33,8 +35,8 @@ public class PreferenceController {
 	private IPreferenceService srvPreference;
 	@Autowired
 	private IMarkService srvMark;
-	@Autowired
-	private ICustomerService srvCustomer;
+	//@Autowired
+	//private ICustomerService srvCustomer;
 	@Autowired
 	private IClothingTypeService srvClothingType;
 	
@@ -55,7 +57,7 @@ public class PreferenceController {
 	@RequestMapping("/irRegistrar")
 	public String irRegistrar(Model model) {
 		model.addAttribute("listaMarks", srvMark.findAll());
-		model.addAttribute("listaCustomers", srvCustomer.findAll());
+		//model.addAttribute("listaCustomers", srvCustomer.findAll());
 		model.addAttribute("listaClothingTypes", srvClothingType.findAll());
 		model.addAttribute("mark", new Mark());
 		model.addAttribute("customer", new Customer());
@@ -68,13 +70,16 @@ public class PreferenceController {
 	public String registrar(@ModelAttribute @Valid Preference preference, BindingResult binRes, Model model) throws ParseException {
 		if (binRes.hasErrors()) {
 			model.addAttribute("listaMarks", srvMark.findAll());
-			model.addAttribute("listaCustomers", srvCustomer.findAll());
+			//model.addAttribute("listaCustomers", srvCustomer.findAll());
 			model.addAttribute("listaClothingTypes", srvClothingType.findAll());
 			return "preference";
 		}
 		else {
-			boolean flag = srvPreference.insert(preference);
-			if (flag) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			System.out.println(auth.getName());
+			Customer cust = new Customer();
+			preference.setCustomer(cust);
+			if (srvPreference.insert(preference)) {
 				return "redirect:/preferences/listar";
 			}
 			else {
@@ -93,7 +98,7 @@ public class PreferenceController {
 		}
 		else {
 			model.addAttribute("listaMarks", srvMark.findAll());
-			model.addAttribute("listaCustomers", srvCustomer.findAll());
+			//model.addAttribute("listaCustomers", srvCustomer.findAll());
 			model.addAttribute("listaClothingTypes", srvClothingType.findAll());
 			model.addAttribute("preference", objPreference);
 			return "preference";

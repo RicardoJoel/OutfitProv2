@@ -35,13 +35,13 @@ public class Consulting implements Serializable {
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@Column(nullable=false)
-	private Date premActDate;
+	private Date initDate;
 
 	@Past(message="No puede seleccionar un día que no existe")
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@Column(nullable=true)
-	private Date premDesDate;
+	private Date endDate;
 	
 	@Min(value=0, message="El valor debe estar entre 0 y 5")
 	@Max(value=5, message="El valor debe estar entre 0 y 5")
@@ -65,15 +65,15 @@ public class Consulting implements Serializable {
 	}
 
 	public Consulting(int id,
-			@NotNull(message = "Campo obligatorio") @Past(message = "No puede seleccionar un día que no existe") Date premActDate,
-			@Past(message = "No puede seleccionar un día que no existe") Date premDesDate,
+			@NotNull(message = "Campo obligatorio") @Past(message = "No puede seleccionar un día que no existe") Date initDate,
+			@Past(message = "No puede seleccionar un día que no existe") Date endDate,
 			@Min(value = 0, message = "El valor debe estar entre 0 y 5") @Max(value = 5, message = "El valor debe estar entre 0 y 5") int calification,
 			@NotNull(message = "Debes elegir una opción") Assessor assessor,
 			@NotNull(message = "Debes elegir una opción") Customer customer, boolean enabled) {
 		super();
 		this.id = id;
-		this.premActDate = premActDate;
-		this.premDesDate = premDesDate;
+		this.initDate = initDate;
+		this.endDate = endDate;
 		this.calification = calification;
 		this.assessor = assessor;
 		this.customer = customer;
@@ -88,20 +88,20 @@ public class Consulting implements Serializable {
 		this.id = id;
 	}
 
-	public Date getPremActDate() {
-		return premActDate;
+	public Date getInitDate() {
+		return initDate;
 	}
 
-	public void setPremActDate(Date premActDate) {
-		this.premActDate = premActDate;
+	public void setInitDate(Date initDate) {
+		this.initDate = initDate;
 	}
 
-	public Date getPremDesDate() {
-		return premDesDate;
+	public Date getEndDate() {
+		return endDate;
 	}
 
-	public void setPremDesDate(Date premDesDate) {
-		this.premDesDate = premDesDate;
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	public int getCalification() {
