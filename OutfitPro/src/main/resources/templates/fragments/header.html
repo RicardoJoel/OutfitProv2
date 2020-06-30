@@ -17,6 +17,9 @@
 				</div>
 				<div id="navbar" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
+					
+					
+					
 						<li class="active"><a th:href="@{/sizes/}">Tallas</a></li>
 						<li class="active"><a th:href="@{/colors/}">Colores</a></li>
 						<li class="active"><a th:href="@{/marks/}">Marcas</a></li>
@@ -29,6 +32,15 @@
 						<li class="active"><a th:href="@{/consultings/}">Asesorías</a></li>
 						<li class="active"><a th:href="@{/sales/}">Ventas</a></li-->
 					</ul>
+					
+					<ul style="align-content: right">
+									<li class="nav-link"><form id="logoutForm"
+											th:action="@{/logout}" method="post">
+											<button class="btn btn-dark" style=""
+												onclick="document.getElementById('logoutForm').submit();"
+												type="submit">Salir</button>
+										</form></li>
+								</ul>
 				</div>
 			</div>
 		</nav>
