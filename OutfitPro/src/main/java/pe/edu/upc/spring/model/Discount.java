@@ -40,8 +40,8 @@ public class Discount implements Serializable {
 	@Column(length=500, nullable=true)
 	private String description;
 	
-	@Min(value=0, message="El valor debe estar entre 0 y 500.00")
-	@Max(value=500, message="El valor debe estar entre 0 y 500.00")
+	@Min(value=0, message="El valor debe estar entre 0 y 500")
+	@Max(value=500, message="El valor debe estar entre 0 y 500")
 	@Column(nullable=false)
 	private float amount;
 	
@@ -73,7 +73,7 @@ public class Discount implements Serializable {
 	public Discount(int id,
 			@Size(max = 50, message = "Máximo 50 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String name,
 			@Size(max = 500, message = "Máximo 500 caracteres") String description,
-			@Min(value = 0, message = "El valor debe estar entre 0 y 500.00") @Max(value = 500, message = "El valor debe estar entre 0 y 500.00") float amount,
+			@Min(value = 0, message = "El valor debe estar entre 0 y 500") @Max(value = 500, message = "El valor debe estar entre 0 y 500") float amount,
 			@Min(value = 0, message = "El valor debe estar entre 0 y 100") @Max(value = 100, message = "El valor debe estar entre 0 y 100") int percentage,
 			@NotNull(message = "Campo obligatorio") Date initDate, @NotNull(message = "Campo obligatorio") Date endDate,
 			boolean enabled) {

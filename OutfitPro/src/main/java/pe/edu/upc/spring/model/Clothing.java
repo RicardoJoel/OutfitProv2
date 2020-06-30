@@ -26,15 +26,13 @@ public class Clothing implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@javax.validation.constraints.Size(max=20, message="Máximo 20 caracteres")
+	@javax.validation.constraints.Size(max=50, message="Máximo 50 caracteres")
 	@NotEmpty(message="Campo obligatorio")
 	@NotBlank(message="No puede estar en blanco")
-	@Column(length=20, nullable=false)
+	@Column(length=50, nullable=false)
 	private String name;
 
-	@javax.validation.constraints.Size(max=100, message="Máximo 100 caracteres")
-	//@NotEmpty(message="Campo obligatorio")
-	//@NotBlank(message="No puede estar en blanco")
+	@javax.validation.constraints.Size(max=500, message="Máximo 100 caracteres")
 	@Column(length=100, nullable=true)
 	private String image;
 	
@@ -67,13 +65,13 @@ public class Clothing implements Serializable {
 	@ManyToOne @JoinColumn(nullable=true)
 	private Discount discount;
 	
-	@Min(value=0, message="El valor debe estar entre 0 y 1'000,000.00")
-	@Max(value=1000000, message="El valor debe estar entre 0 y 1'000,000")
+	@Min(value=0, message="El valor debe estar entre 0 y 1000")
+	@Max(value=1000, message="El valor debe estar entre 0 y 1000")
 	@Column(nullable=false)
 	private float price;
 	
-	@Min(value=0, message="El valor debe estar entre 0 y 1'000,000")
-	@Max(value=1000000, message="El valor debe estar entre 0 y 1'000,000")
+	@Min(value=0, message="El valor debe estar entre 0 y 1000")
+	@Max(value=1000, message="El valor debe estar entre 0 y 1000")
 	@Column(nullable=false)
 	private int stock;
 	
@@ -86,7 +84,7 @@ public class Clothing implements Serializable {
 	}
 
 	public Clothing(int id,
-			@javax.validation.constraints.Size(max = 20, message = "Máximo 20 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String name,
+			@javax.validation.constraints.Size(max = 50, message = "Máximo 50 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String name,
 			@javax.validation.constraints.Size(max = 100, message = "Máximo 100 caracteres") String image,
 			@javax.validation.constraints.Size(max = 10, message = "Máximo 10 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String gender,
 			@NotNull(message = "Debes elegir una opción") Size size,
@@ -94,8 +92,9 @@ public class Clothing implements Serializable {
 			@NotNull(message = "Debes elegir una opción") Mark mark,
 			@NotNull(message = "Debes elegir una opción") Commerce commerce,
 			@NotNull(message = "Debes elegir una opción") ClothingType clothingType, Discount discount,
-			@Min(value = 0, message = "El valor debe estar entre 0 y 1'000,000.00") @Max(value = 1000000, message = "El valor debe estar entre 0 y 1'000,000.00") float price,
-			@Min(value = 0, message = "El valor debe estar entre 0 y 1'000,000") @Max(value = 1000000, message = "El valor debe estar entre 0 y 1'000,000") int stock, boolean enabled) {
+			@Min(value = 0, message = "El valor debe estar entre 0 y 1000") @Max(value = 1000, message = "El valor debe estar entre 0 y 1000") float price,
+			@Min(value = 0, message = "El valor debe estar entre 0 y 1000") @Max(value = 1000, message = "El valor debe estar entre 0 y 1000") int stock,
+			boolean enabled) {
 		super();
 		this.id = id;
 		this.name = name;

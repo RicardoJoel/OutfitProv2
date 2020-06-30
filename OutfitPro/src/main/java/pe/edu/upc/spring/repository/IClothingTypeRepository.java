@@ -11,6 +11,9 @@ import pe.edu.upc.spring.model.ClothingType;
 
 @Repository
 public interface IClothingTypeRepository extends JpaRepository<ClothingType, Integer> {
-	@Query("from ClothingType a where lower(a.name) like lower(concat('%',:name,'%'))")
+	@Query("from ClothingType a where a.enabled = true order by a.name")
+	List<ClothingType> findAll();
+	
+	@Query("from ClothingType a where lower(a.name) like lower(concat('%',:name,'%')) and a.enabled = true order by a.name")
 	List<ClothingType> findByName(@Param("name") String name);
 }

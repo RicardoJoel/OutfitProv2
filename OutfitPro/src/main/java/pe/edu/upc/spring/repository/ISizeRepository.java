@@ -12,9 +12,12 @@ import pe.edu.upc.spring.model.Size;
 
 @Repository
 public interface ISizeRepository extends JpaRepository<Size, Integer> {
-	@Query("from Size a where lower(a.name) like lower(concat('%',:name,'%'))")
+	@Query("from Size a where a.enabled = true order by a.name")
+	List<Size> findAll();
+	
+	@Query("from Size a where lower(a.name) like lower(concat('%',:name,'%')) and a.enabled = true order by a.name")
 	List<Size> findByName(@Param("name") String name);
 	
-	@Query("from Size a where a.clothingType = :clothingType")
+	@Query("from Size a where a.clothingType = :clothingType and a.enabled = true order by a.name")
 	List<Size> findByClothingType(@Param("clothingType") ClothingType clothingType);
 }

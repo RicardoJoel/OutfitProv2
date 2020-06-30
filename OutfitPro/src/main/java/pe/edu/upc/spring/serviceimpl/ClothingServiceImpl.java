@@ -1,11 +1,18 @@
 package pe.edu.upc.spring.serviceimpl;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+
+import org.apache.commons.io.FilenameUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import pe.edu.upc.spring.repository.IClothingRepository;
 import pe.edu.upc.spring.model.Clothing;
@@ -86,6 +93,18 @@ public class ClothingServiceImpl implements IClothingService {
 	@Transactional(readOnly=true)
 	public List<Clothing> findByClothingType(ClothingType clothingType) {
 		return rpsClothing.findByClothingType(clothingType);
+	}
+
+	@Override
+	@Transactional
+	public String saveImage(MultipartFile imageFile) throws Exception {
+		String folder = "D:/Ricardo/sts-workspace3/OutfitPro/src/main/resources/static/img/";
+		String ext = FilenameUtils.getExtension(imageFile.getOriginalFilename());
+		File temp = File.createTempFile("clt-", '.' + ext, new File(folder));
+		Path path = Paths.get(folder + temp.getName());
+		temp.delete();
+		Files.write(path, imageFile.getBytes());
+		return temp.getName();
 	}
 
 }

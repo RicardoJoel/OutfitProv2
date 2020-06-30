@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pe.edu.upc.spring.model.Clothing;
@@ -96,7 +97,7 @@ public class ClothingController {
 	}
 	
 	@RequestMapping("/registrar")
-	public String registrar(@ModelAttribute @Valid Clothing clothing, BindingResult binRes, Model model) throws ParseException {
+	public String registrar(@RequestParam("imageFile") MultipartFile imageFile, @ModelAttribute @Valid Clothing clothing, BindingResult binRes, Model model) throws ParseException {
 		if (binRes.hasErrors()) {
 			model.addAttribute("listaSizes", srvSize.findAll());
 			model.addAttribute("listaColors", srvColor.findAll());
@@ -107,12 +108,16 @@ public class ClothingController {
 			return "clothing";
 		}
 		else {
+			try {
+				clothing.setImage(srvClothing.saveImage(imageFile));
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.err.println("Ocurrió un error mientras se intentaba guardar la imagen de la prenda.");
+			}
 			if (clothing.getDiscount().getId() == 0)
 				clothing.setDiscount(null);
-			boolean flag = srvClothing.insert(clothing);
-			if (flag) {
+			if (srvClothing.insert(clothing))
 				return "redirect:/clothings/listar";
-			}
 			else {
 				model.addAttribute("mensaje", "Ocurrió un error mientras se intentaba guardar la prenda.");
 				return "redirect:/clothings/irRegistrar";

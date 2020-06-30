@@ -3,6 +3,8 @@ package pe.edu.upc.spring.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import pe.edu.upc.spring.model.Clothing;
 import pe.edu.upc.spring.model.ClothingType;
 import pe.edu.upc.spring.model.Color;
@@ -21,4 +23,5 @@ public interface IClothingService {
 	List<Clothing> findByMark(Mark mark);
 	List<Clothing> findByCommerce(Commerce commerce);
 	List<Clothing> findByClothingType(ClothingType clothingType);
+	public String saveImage(MultipartFile imageFile) throws Exception;
 }

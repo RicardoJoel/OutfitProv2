@@ -26,12 +26,12 @@ public class User implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	
 	private int id;
 	
-	@Size(max=20, message="Máximo 20 caracteres")
-	@Column(length=20, nullable=false, unique=true)
+	@Size(max=50, message="Máximo 50 caracteres")
+	@Column(length=50, nullable=false, unique=true)
 	private String username;
 	
-	@Size(max=20, message="Máximo 20 caracteres")
-	@Column(length=20, nullable=false)
+	@Size(max=100, message="Máximo 100 caracteres")
+	@Column(length=100, nullable=false)
 	private String password;
 	
 	@Size(max=50, message="Máximo 50 caracteres")
@@ -59,11 +59,12 @@ public class User implements Serializable {
 	}
 
 	public User(int id, 
-			@Size(max = 20, message = "Máximo 20 caracteres") String username,
-			@Size(max = 20, message = "Máximo 20 caracteres") String password,
+			@Size(max = 50, message = "Máximo 50 caracteres") String username,
+			@Size(max = 100, message = "Máximo 100 caracteres") String password,
 			@Size(max = 50, message = "Máximo 50 caracteres") String name,
 			@Size(max = 10, message = "Máximo 10 caracteres") String gender,
-			@Size(max = 100, message = "Máximo 100 caracteres") String address, boolean enabled, List<Role> roles) {
+			@Size(max = 100, message = "Máximo 100 caracteres") String address, 
+			boolean enabled, List<Role> roles) {
 		super();
 		this.id = id;
 		this.username = username;

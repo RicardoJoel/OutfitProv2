@@ -11,6 +11,9 @@ import pe.edu.upc.spring.model.Customer;
 
 @Repository
 public interface ICustomerRepository extends JpaRepository<Customer, Integer> {
-	@Query("from Customer a where lower(a.name) like lower(concat('%',:name,'%'))")
+	@Query("from Customer a where a.enabled = true order by a.name")
+	List<Customer> findAll();
+	
+	@Query("from Customer a where lower(a.name) like lower(concat('%',:name,'%')) and a.enabled = true order by a.name")
 	List<Customer> findByName(@Param("name") String name);
 }

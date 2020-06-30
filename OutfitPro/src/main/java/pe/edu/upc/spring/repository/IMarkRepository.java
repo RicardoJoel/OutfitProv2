@@ -11,6 +11,9 @@ import pe.edu.upc.spring.model.Mark;
 
 @Repository
 public interface IMarkRepository extends JpaRepository<Mark, Integer> {
-	@Query("from Mark a where lower(a.name) like lower(concat('%',:name,'%'))")
+	@Query("from Mark a where a.enabled = true order by a.name")
+	List<Mark> findAll();
+	
+	@Query("from Mark a where lower(a.name) like lower(concat('%',:name,'%')) and a.enabled = true order by a.name")
 	List<Mark> findByName(@Param("name") String name);
 }

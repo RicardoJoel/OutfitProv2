@@ -34,10 +34,10 @@ public class Commerce implements Serializable {
 	@Column(length=11, nullable=false)
 	private String ruc;
 	
-	@Size(max=20, message="Máximo 20 caracteres")
+	@Size(max=50, message="Máximo 50 caracteres")
 	@NotEmpty(message="Campo obligatorio")
 	@NotBlank(message="No puede estar en blanco")
-	@Column(length=20, nullable=false)
+	@Column(length=50, nullable=false)
 	private String email;
 	
 	@Size(max=50, message="Máximo 50 caracteres")
@@ -57,7 +57,7 @@ public class Commerce implements Serializable {
 	public Commerce(int id,
 			@Size(max = 50, message = "Máximo 50 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String name,
 			@Size(max = 11, message = "Máximo 11 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String ruc,
-			@Size(max = 20, message = "Máximo 20 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String email,
+			@Size(max = 50, message = "Máximo 50 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String email,
 			@Size(max = 50, message = "Máximo 50 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String telephone,
 			boolean enabled) {
 		super();

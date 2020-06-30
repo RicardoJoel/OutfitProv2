@@ -47,8 +47,9 @@ public class Customer extends User implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Customer(int id, @Size(max = 20, message = "Máximo 20 caracteres") String username,
-			@Size(max = 20, message = "Máximo 20 caracteres") String password,
+	public Customer(int id, 
+			@Size(max = 50, message = "Máximo 50 caracteres") String username,
+			@Size(max = 100, message = "Máximo 100 caracteres") String password,
 			@Size(max = 50, message = "Máximo 50 caracteres") String name,
 			@Size(max = 10, message = "Máximo 10 caracteres") String gender,
 			@Size(max = 100, message = "Máximo 100 caracteres") String address, 

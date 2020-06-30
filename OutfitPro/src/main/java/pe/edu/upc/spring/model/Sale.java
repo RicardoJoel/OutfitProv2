@@ -35,7 +35,7 @@ public class Sale implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@Min(value=1, message="El valor debe ser positivo")
+	@Min(value=0, message="El valor no puede ser negativo")
 	@Column(nullable=false)
 	private float amount;
 	
@@ -72,7 +72,8 @@ public class Sale implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Sale(int id, @Min(value = 1, message = "El valor debe ser positivo") float amount, Date paymentDate,
+	public Sale(int id, 
+			@Min(value = 0, message = "El valor no puede ser negativo") float amount, Date paymentDate,
 			@Size(max = 20, message = "Máximo 20 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String paymentMethod,
 			@Size(max = 20, message = "Máximo 20 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String status,
 			@NotNull(message = "Campo obligatorio") Customer customer, List<SaleDetail> details, boolean enabled) {

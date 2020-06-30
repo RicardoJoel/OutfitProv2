@@ -13,20 +13,18 @@
 		<h3 style="margin-bottom:30px">Detalle del color</h3>
 		
 		<form th:action="@{/colors/registrar}" method="post" th:object="${color}">
-			<div class="form-group">
-				<input type="hidden" th:field="*{id}"></input>
+			<input type="hidden" th:field="*{id}"/>
 
-				<div class="form-group">
-					<label for="name" class="col-form-label">Nombre</label>
-					<input type="text" th:field="*{name}" class="form-control" id="name"></input>
-					<div class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
-				</div>
-				
-				<div class="form-group">
-					<label for="hexadecimal" class="col-form-label">Hexadecimal</label>
-					<input type="color" th:field="*{hexadecimal}" id="hexadecimal"></input>
-					<div class="alert alert-danger" th:if="${#fields.hasErrors('hexadecimal')}" th:errors="*{hexadecimal}"></div>
-				</div>
+			<div class="form-group">
+				<label for="name" class="col-form-label">Nombre</label>
+				<input type="text" th:field="*{name}" class="form-control" id="name"/>
+				<div class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+			</div>
+			
+			<div class="form-group">
+				<label for="hexadecimal" class="col-form-label">Hexadecimal</label>
+				<input type="color" th:field="*{hexadecimal}" id="hexadecimal"/>
+				<div class="alert alert-danger" th:if="${#fields.hasErrors('hexadecimal')}" th:errors="*{hexadecimal}"></div>
 			</div>
 			
 			<div style="margin-top:30px;margin-bottom:30px">

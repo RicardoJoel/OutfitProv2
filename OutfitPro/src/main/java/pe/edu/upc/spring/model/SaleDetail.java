@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -24,23 +23,19 @@ public class SaleDetail implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@Min(value=1, message="El valor debe estar entre 1 y 1'000,000")
-	@Max(value=1000000, message="El valor debe estar entre 1 y 1'000,000")
+	@Min(value=1, message="El valor debe ser mayor a cero")
 	@Column(nullable=false)
 	private int quantity;
 	
-	@Min(value=0, message="El valor debe estar entre 0 y 1'000,000")
-	@Max(value=1000000, message="El valor debe estar entre 0 y 1'000,000")
+	@Min(value=0, message="El valor no puede ser negativo")
 	@Column(nullable=false)
 	private float subtotal;
 	
-	@Min(value=0, message="El valor debe estar entre 0 y 1'000,000")
-	@Max(value=1000000, message="El valor debe estar entre 0 y 1'000,000")
+	@Min(value=0, message="El valor no puede ser negativo")
 	@Column(nullable=false)
 	private float discount;
 	
-	@Min(value=0, message="El valor debe estar entre 0 y 1'000,000")
-	@Max(value=1000000, message="El valor debe estar entre 0 y 1'000,000")
+	@Min(value=0, message="El valor no puede ser negativo")
 	@Column(nullable=false)
 	private float subtotalFinal;
 
@@ -54,6 +49,21 @@ public class SaleDetail implements Serializable {
 	public SaleDetail() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public SaleDetail(int id, @Min(value = 1, message = "El valor debe ser mayor a cero") int quantity,
+			@Min(value = 0, message = "El valor no puede ser negativo") float subtotal,
+			@Min(value = 0, message = "El valor no puede ser negativo") float discount,
+			@Min(value = 0, message = "El valor no puede ser negativo") float subtotalFinal,
+			@NotNull(message = "Debes elegir una opción") Clothing clothing, boolean enabled) {
+		super();
+		this.id = id;
+		this.quantity = quantity;
+		this.subtotal = subtotal;
+		this.discount = discount;
+		this.subtotalFinal = subtotalFinal;
+		this.clothing = clothing;
+		this.enabled = enabled;
 	}
 
 	public int getId() {

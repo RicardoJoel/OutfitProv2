@@ -33,6 +33,12 @@ $(function() {
             });
 		}
         else
-        	$('#slt-size').attr('disabled', true);   
+        	$('#slt-size').attr('disabled', true);
 	}
+	
+	/*$('#imageFile').change(function() {
+		var file = $(this).val();
+		alert(file);
+		$("#imageView").attr("src", file);
+	});*/
 });

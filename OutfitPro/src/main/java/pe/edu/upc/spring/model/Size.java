@@ -24,10 +24,10 @@ public class Size implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@javax.validation.constraints.Size(max=20, message="Máximo 20 caracteres")
+	@javax.validation.constraints.Size(max=50, message="Máximo 50 caracteres")
 	@NotEmpty(message="Campo obligatorio")
 	@NotBlank(message="No puede estar en blanco")
-	@Column(length=20, nullable=false)
+	@Column(length=50, nullable=false)
 	private String name;
 
 	@NotNull(message="Debes elegir una opción")
@@ -43,7 +43,7 @@ public class Size implements Serializable {
 	}
 
 	public Size(int id,
-			@javax.validation.constraints.Size(max = 20, message = "Máximo 20 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String name,
+			@javax.validation.constraints.Size(max = 50, message = "Máximo 50 caracteres") @NotEmpty(message = "Campo obligatorio") @NotBlank(message = "No puede estar en blanco") String name,
 			@NotNull(message = "Debes elegir una opción") ClothingType clothingType, boolean enabled) {
 		super();
 		this.id = id;

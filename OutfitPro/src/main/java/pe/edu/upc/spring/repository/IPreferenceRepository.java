@@ -14,12 +14,15 @@ import pe.edu.upc.spring.model.Preference;
 
 @Repository
 public interface IPreferenceRepository extends JpaRepository<Preference, Integer> {
-	@Query("from Preference a where a.mark = :mark")
+	@Query("from Preference a where a.enabled = true order by a.clothingType.name")
+	List<Preference> findAll();
+	
+	@Query("from Preference a where a.mark = :mark and a.enabled = true order by a.clothingType.name")
 	List<Preference> findByMark(@Param("mark") Mark mark);
 	
-	@Query("from Preference a where a.customer = :customer")
+	@Query("from Preference a where a.customer = :customer and a.enabled = true order by a.clothingType.name")
 	List<Preference> findByCustomer(@Param("customer") Customer customer);
 	
-	@Query("from Preference a where a.clothingType = :clothingType")
+	@Query("from Preference a where a.clothingType = :clothingType and a.enabled = true order by a.clothingType.name")
 	List<Preference> findByClothingType(@Param("clothingType") ClothingType clothingType);
 }
