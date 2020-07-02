@@ -49,6 +49,12 @@ public class PreferenceServiceImpl implements IPreferenceService {
 	public List<Preference> findAll() {
 		return rpsPreference.findAll();
 	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<Preference> findByName(String name) {
+		return rpsPreference.findByName(name);
+	}
 	
 	@Override
 	@Transactional(readOnly=true)

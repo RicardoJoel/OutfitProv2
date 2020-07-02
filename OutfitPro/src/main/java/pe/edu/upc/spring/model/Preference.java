@@ -22,13 +22,12 @@ public class Preference implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@NotNull(message="Debes elegir una opción")
 	@ManyToOne @JoinColumn(nullable=false)
-	private Mark mark;
+	private Customer customer;
 	
 	@NotNull(message="Debes elegir una opción")
 	@ManyToOne @JoinColumn(nullable=false)
-	private Customer customer;
+	private Mark mark;
 	
 	@NotNull(message="Debes elegir una opción")
 	@ManyToOne @JoinColumn(nullable=false)
@@ -42,15 +41,12 @@ public class Preference implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Preference(int id, 
-			@NotNull(message = "Debes elegir una opción") Mark mark,
-			@NotNull(message = "Debes elegir una opción") Customer customer,
-			@NotNull(message = "Debes elegir una opción") ClothingType clothingType,
-			boolean enabled) {
+	public Preference(int id, Customer customer, @NotNull(message = "Debes elegir una opción") Mark mark,
+			@NotNull(message = "Debes elegir una opción") ClothingType clothingType, boolean enabled) {
 		super();
 		this.id = id;
-		this.mark = mark;
 		this.customer = customer;
+		this.mark = mark;
 		this.clothingType = clothingType;
 		this.enabled = enabled;
 	}
@@ -63,20 +59,20 @@ public class Preference implements Serializable {
 		this.id = id;
 	}
 
-	public Mark getMark() {
-		return mark;
-	}
-
-	public void setMark(Mark mark) {
-		this.mark = mark;
-	}
-
 	public Customer getCustomer() {
 		return customer;
 	}
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+
+	public Mark getMark() {
+		return mark;
+	}
+
+	public void setMark(Mark mark) {
+		this.mark = mark;
 	}
 
 	public ClothingType getClothingType() {

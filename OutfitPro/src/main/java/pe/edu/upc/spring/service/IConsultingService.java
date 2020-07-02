@@ -12,6 +12,7 @@ public interface IConsultingService {
 	public void delete(int id);
 	public Optional<Consulting> findById(int id);
 	List<Consulting> findAll();
+	List<Consulting> findByName(String name);
 	List<Consulting> findByAssessor(Assessor assessor);
 	List<Consulting> findByCustomer(Customer customer);
 }

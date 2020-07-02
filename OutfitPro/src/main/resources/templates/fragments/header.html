@@ -17,9 +17,6 @@
 				</div>
 				<div id="navbar" class="collapse navbar-collapse">
 					<ul class="nav navbar-nav">
-					
-					
-					
 						<li class="active"><a th:href="@{/sizes/}">Tallas</a></li>
 						<li class="active"><a th:href="@{/colors/}">Colores</a></li>
 						<li class="active"><a th:href="@{/marks/}">Marcas</a></li>
@@ -27,19 +24,14 @@
 						<li class="active"><a th:href="@{/clothingTypes/}">Tipos de prenda</a></li>
 						<li class="active"><a th:href="@{/clothings/}">Prendas</a></li>
 						<li class="active"><a th:href="@{/discounts/}">Descuentos</a></li>
-						<li class="active"><a th:href="@{/preferences/}">Preferencias</a></li>
-						<li class="active"><a th:href="@{/consultings/}">Asesorías</a></li>
-						<li class="active"><a th:href="@{/sales/}">Ventas</a></li>
+						<li class="active"><a th:href="@{/preferences/}">Mis preferencias</a></li>
+						<li class="active"><a th:href="@{/consultings/}">Mis asesorías</a></li>
+						<li class="nav-link">
+							<form id="logoutForm" th:action="@{/logout}" method="post">
+								<button type="submit" class="btn btn-dark" onclick="document.getElementById('logoutForm').submit();">Salir</button>
+							</form>
+						</li>
 					</ul>
-					
-					<ul style="align-content: right">
-									<li class="nav-link"><form id="logoutForm"
-											th:action="@{/logout}" method="post">
-											<button class="btn btn-dark" style=""
-												onclick="document.getElementById('logoutForm').submit();"
-												type="submit">Salir</button>
-										</form></li>
-								</ul>
 				</div>
 			</div>
 		</nav>

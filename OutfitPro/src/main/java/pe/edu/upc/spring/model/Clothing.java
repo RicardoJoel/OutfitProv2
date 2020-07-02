@@ -10,7 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -32,7 +31,7 @@ public class Clothing implements Serializable {
 	@Column(length=50, nullable=false)
 	private String name;
 
-	@javax.validation.constraints.Size(max=500, message="Máximo 100 caracteres")
+	@javax.validation.constraints.Size(max=100, message="Máximo 100 caracteres")
 	@Column(length=100, nullable=true)
 	private String image;
 	
@@ -65,13 +64,11 @@ public class Clothing implements Serializable {
 	@ManyToOne @JoinColumn(nullable=true)
 	private Discount discount;
 	
-	@Min(value=0, message="El valor debe estar entre 0 y 1000")
-	@Max(value=1000, message="El valor debe estar entre 0 y 1000")
+	@Min(value=1, message="El valor debe ser mayor a cero")
 	@Column(nullable=false)
 	private float price;
 	
-	@Min(value=0, message="El valor debe estar entre 0 y 1000")
-	@Max(value=1000, message="El valor debe estar entre 0 y 1000")
+	@Min(value=0, message="El valor no puede ser negativo")
 	@Column(nullable=false)
 	private int stock;
 	
@@ -92,9 +89,8 @@ public class Clothing implements Serializable {
 			@NotNull(message = "Debes elegir una opción") Mark mark,
 			@NotNull(message = "Debes elegir una opción") Commerce commerce,
 			@NotNull(message = "Debes elegir una opción") ClothingType clothingType, Discount discount,
-			@Min(value = 0, message = "El valor debe estar entre 0 y 1000") @Max(value = 1000, message = "El valor debe estar entre 0 y 1000") float price,
-			@Min(value = 0, message = "El valor debe estar entre 0 y 1000") @Max(value = 1000, message = "El valor debe estar entre 0 y 1000") int stock,
-			boolean enabled) {
+			@Min(value = 1, message = "El valor debe ser mayor a cero") float price,
+			@Min(value = 0, message = "El valor no puede ser negativo") int stock, boolean enabled) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -214,5 +210,5 @@ public class Clothing implements Serializable {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-
+	
 }

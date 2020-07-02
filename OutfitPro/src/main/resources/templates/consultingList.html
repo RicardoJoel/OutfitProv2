@@ -2,7 +2,7 @@
 <html xmlns:lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8"></meta>
-	<title>Outfit Pro - Listado de consultorías</title>
+	<title>Outfit Pro - Mis asesorías</title>
 	<link rel="stylesheet" id="bootstrap-css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 	<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.16.0/jquery.validate.js"></script>
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -11,18 +11,34 @@
 <body>
 	<div th:replace="fragments/header :: header"></div>
 	<div class="container">
-		<h3 style="margin-bottom:30px">Listado de consultorías</h3>
+		<h3 style="margin-bottom:30px">Asesores disponibles</h3>
 		
-		<form th:action="@{/preferences/buscar}" method="post" th:object="${preference}">
-			<div style="float:left">
-				<a th:href="@{/preferences/irRegistrar}" id="add-row" type="button" class="btn btn-primary btn-md left-block"> 
-					<span class="glyphicon glyphicon-plus"></span> Nueva consultoría
-				</a>
+		<form th:action="@{/consultings/registrar}" method="post" th:object="${consulting}">
+			<input type="hidden" th:field="*{id}"/>
+			
+			<div class="form-group">
+				<select class="form-control" th:field="*{assessor.id}">
+					<option selected disabled hidden th:value="0" th:text="'-- Selecciona un asesor --'"></option>
+					<option th:each="m: ${listaAssessors}" th:value="${m.id}" th:text="${m.name}"></option>
+				</select>
+				<div class="alert alert-danger" th:if="${#fields.hasErrors('assessor')}" th:errors="*{assessor}"></div>
 			</div>
 			
+			<div style="margin-top:30px;margin-bottom:30px">
+				<center>
+				<button type="submit" class="btn btn-primary">Iniciar asesoría</button>
+				<a href="/" class="btn btn-secondary">Atrás</a>
+				</center>
+			</div>
+		</form>
+		
+		<form th:action="@{/consultings/buscar}" method="post" th:object="${consulting}">
+			<div style="float:left">
+				<h3 style="margin-bottom:30px">Mis asesorías</h3>
+			</div>
 			<div style="float:right">
-				<input type="text" th:field="*{clothingType.name}" id="name"></input>
-				<button type="submit" th:href="@{/preferences/listar}" id="add-row" class="btn btn-primary btn-md left-block"> 
+				<input type="text" th:field="*{assessor.name}" id="name"></input>
+				<button type="submit" th:href="@{/consultings/listar}" id="add-row" class="btn btn-primary btn-md left-block"> 
 					<span class="glyphicon glyphicon-search"></span> 
 				</button>
 			</div>
@@ -36,30 +52,17 @@
 					<table class="table table-bordered table-hover table-striped" id="tab_logic">
 						<thead>
 							<tr>
-								<th class="text-center">Cliente</th>
 								<th class="text-center">Asesor</th>
+								<th class="text-center">Fecha y hora</th>
 								<th class="text-center">Calificación</th>
-								<th class="text-center">Operaciones</th>
 							</tr>
 						</thead>
 						
 						<tbody>
-							<tr th:each="due: ${listaPreferences}">
-								<td th:text="${due.customer.name}"></td>
+							<tr th:each="due: ${listaConsultings}">
 								<td th:text="${due.assessor.name}"></td>
+								<td th:text="${#dates.format(due.dateTime,'dd/MM/yyyy HH:mm:ss')}" style="text-align: center"></td>
 								<td th:text="${due.calification}"></td>
-								<td th:text="${#dates.format(due.initDate,'dd/MM/yyyy hh:mm:ss')} + ' - ' + 
-											 ${#dates.format(due.endDate,'dd/MM/yyyy hh:mm:ss')}"
-											 style="text-align: center">
-								</td>
-								<td style="text-align: center">
-									<a th:href="@{'/preferences/modificar/' + ${due.id}}">
-										<span class="glyphicon glyphicon-edit" title="Editar"></span>
-									</a>
-									<a th:href="@{/preferences/eliminar?id=} + ${due.id}">
-										<span class="glyphicon glyphicon-trash" title="Eliminar"></span>
-									</a>
-								</td>
 							</tr>
 						</tbody>
 					</table>		

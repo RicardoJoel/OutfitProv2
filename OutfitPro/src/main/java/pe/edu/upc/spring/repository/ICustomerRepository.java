@@ -11,6 +11,8 @@ import pe.edu.upc.spring.model.Customer;
 
 @Repository
 public interface ICustomerRepository extends JpaRepository<Customer, Integer> {
+	Customer findByUsername(String username);
+	
 	@Query("from Customer a where a.enabled = true order by a.name")
 	List<Customer> findAll();
 	

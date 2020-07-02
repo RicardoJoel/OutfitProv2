@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pe.edu.upc.spring.repository.ISizeRepository;
-import pe.edu.upc.spring.model.ClothingType;
 import pe.edu.upc.spring.model.Size;
 import pe.edu.upc.spring.service.ISizeService;
 
@@ -52,11 +51,5 @@ public class SizeServiceImpl implements ISizeService {
 	@Transactional(readOnly=true)
 	public List<Size> findByName(String name) {
 		return rpsSize.findByName(name);
-	}
-	
-	@Override
-	@Transactional(readOnly=true)
-	public List<Size> findByClothingType(ClothingType clothingType) {
-		return rpsSize.findByClothingType(clothingType);
 	}
 }

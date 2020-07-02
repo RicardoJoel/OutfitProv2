@@ -53,4 +53,9 @@ public class CustomerServiceImpl implements ICustomerService {
 		return repCustomer.findByName(name);
 	}
 
+	@Override
+	public Customer findByUsername(String username) {
+		return repCustomer.findByUsername(username);
+	}
+
 }

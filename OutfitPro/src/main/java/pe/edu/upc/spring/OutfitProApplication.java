@@ -23,8 +23,10 @@ public class OutfitProApplication implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println(passwordEncoder.encode("preciso2020"));
+		System.out.println(passwordEncoder.encode("admin2020"));
 		System.out.println(passwordEncoder.encode("cliente2020"));
+		System.out.println(passwordEncoder.encode("cliente2021"));
 		System.out.println(passwordEncoder.encode("asesor2020"));
+		System.out.println(passwordEncoder.encode("asesor2021"));
 	}
 }

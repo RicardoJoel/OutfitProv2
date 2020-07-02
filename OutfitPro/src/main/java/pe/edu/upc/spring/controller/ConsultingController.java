@@ -2,19 +2,21 @@ package pe.edu.upc.spring.controller;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import pe.edu.upc.spring.model.Consulting;
@@ -37,24 +39,43 @@ public class ConsultingController {
 	
 	@RequestMapping("/")
 	public String irConsulting(Map<String, Object> model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Customer customer = srvCustomer.findByUsername(auth.getName());
+		model.put("listaConsultings", srvConsulting.findByCustomer(customer));
+		model.put("listaAssessors", srvAssessor.findAll());
+		model.put("assessor", new Assessor());
 		model.put("consulting", new Consulting());
-		model.put("listaConsultings", srvConsulting.findAll());
 		return "consultingList";
 	}
 	
 	@RequestMapping("/listar")
 	public String listar(Map<String, Object> model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Customer customer = srvCustomer.findByUsername(auth.getName());
+		model.put("listaConsultings", srvConsulting.findByCustomer(customer));
+		model.put("listaAssessors", srvAssessor.findAll());
+		model.put("assessor", new Assessor());
 		model.put("consulting", new Consulting());
-		model.put("listaConsultings", srvConsulting.findAll());
+		return "consultingList";
+	}
+	
+	@RequestMapping("/buscar")
+	public String buscar(Map<String, Object> model, @ModelAttribute Consulting consulting) throws ParseException {
+		List<Consulting> listaConsultings;
+		listaConsultings = srvConsulting.findByName(consulting.getAssessor().getName());
+		if (listaConsultings.isEmpty()) {
+			model.put("mensaje", "No se encontraron registros.");
+		}
+		model.put("listaConsultings", listaConsultings);
+		model.put("listaAssessors", srvAssessor.findAll());
+		model.put("assessor", new Assessor());
 		return "consultingList";
 	}
 	
 	@RequestMapping("/irRegistrar")
 	public String irRegistrar(Model model) {
 		model.addAttribute("listaAssessors", srvAssessor.findAll());
-		model.addAttribute("listaCustomers", srvCustomer.findAll());
 		model.addAttribute("assessor", new Assessor());
-		model.addAttribute("customer", new Customer());
 		model.addAttribute("consulting", new Consulting());
 		return "consulting";
 	}
@@ -63,22 +84,18 @@ public class ConsultingController {
 	public String registrar(@ModelAttribute @Valid Consulting consulting, BindingResult binRes, Model model) throws ParseException {
 		if (binRes.hasErrors()) {
 			model.addAttribute("listaAssessors", srvAssessor.findAll());
-			model.addAttribute("listaCustomers", srvCustomer.findAll());
-			return "consulting";
+			return "redirect:/consultings/listar";
 		}
 		else {
-			if (consulting.getInitDate() == null)
-				consulting.setInitDate(new Date());
-			else
-				consulting.setEndDate(new Date());
-			boolean flag = srvConsulting.insert(consulting);
-			if (flag) {
-				return "redirect:/consultings/listar";
-			}
-			else {
-				model.addAttribute("mensaje", "Ocurrió un error mientras se intentaba guardar la asesoría.");
-				return "redirect:/consultings/irRegistrar";
-			}
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			Customer customer = srvCustomer.findByUsername(auth.getName());
+			consulting.setCustomer(customer);
+			if (consulting.getId() == 0)
+				consulting.setDateTime(new Date());
+			if (srvConsulting.insert(consulting))
+				return "consulting";
+			model.addAttribute("mensaje", "Ocurrió un error mientras se intentaba iniciar la asesoría.");
+			return "redirect:/consultings/listar";
 		}
 	}
 	
@@ -90,26 +107,29 @@ public class ConsultingController {
 			return "redirect:/consultings/listar";
 		}
 		else {
-			model.addAttribute("listaAssessors", srvAssessor.findAll());
-			model.addAttribute("listaCustomers", srvCustomer.findAll());
+			//model.addAttribute("listaAssessors", srvAssessor.findAll());
 			model.addAttribute("consulting", objConsulting);
 			return "consulting";
 		}
 	}
 	
-	@RequestMapping("/eliminar")
+	/*@RequestMapping("/eliminar")
 	public String eliminar(Map<String, Object> model, @RequestParam(value="id") Integer id) {
 		try {
 			if (id != null && id > 0) {
 				srvConsulting.delete(id);
-				model.put("listaConsultings", srvConsulting.findAll());
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				Customer customer = srvCustomer.findByUsername(auth.getName());
+				model.put("listaConsultings", srvConsulting.findByCustomer(customer));
 			}
 		}
 		catch (Exception ex) {
 			System.out.println(ex.getMessage());
 			model.put("mensaje", "Ocurrió un error mientras se intentaba eliminar la asesoría.");
-			model.put("listaConsultings", srvConsulting.findAll());
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			Customer customer = srvCustomer.findByUsername(auth.getName());
+			model.put("listaConsultings", srvConsulting.findByCustomer(customer));
 		}
 		return "redirect:/consultings/listar";
-	}
+	}*/
 }

@@ -1,6 +1,7 @@
 package pe.edu.upc.spring.controller;
 
 import java.text.ParseException;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -24,7 +25,7 @@ import pe.edu.upc.spring.model.Customer;
 import pe.edu.upc.spring.model.Mark;
 import pe.edu.upc.spring.service.IPreferenceService;
 import pe.edu.upc.spring.service.IClothingTypeService;
-//import pe.edu.upc.spring.service.ICustomerService;
+import pe.edu.upc.spring.service.ICustomerService;
 import pe.edu.upc.spring.service.IMarkService;
 
 @Controller
@@ -35,32 +36,45 @@ public class PreferenceController {
 	private IPreferenceService srvPreference;
 	@Autowired
 	private IMarkService srvMark;
-	//@Autowired
-	//private ICustomerService srvCustomer;
+	@Autowired
+	private ICustomerService srvCustomer;
 	@Autowired
 	private IClothingTypeService srvClothingType;
 	
 	@RequestMapping("/")
 	public String irPreference(Map<String, Object> model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Customer customer = srvCustomer.findByUsername(auth.getName());
+		model.put("listaPreferences", srvPreference.findByCustomer(customer));
 		model.put("preference", new Preference());
-		model.put("listaPreferences", srvPreference.findAll());
 		return "preferenceList";
 	}
 	
 	@RequestMapping("/listar")
 	public String listar(Map<String, Object> model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		Customer customer = srvCustomer.findByUsername(auth.getName());
+		model.put("listaPreferences", srvPreference.findByCustomer(customer));
 		model.put("preference", new Preference());
-		model.put("listaPreferences", srvPreference.findAll());
+		return "preferenceList";
+	}
+	
+	@RequestMapping("/buscar")
+	public String buscar(Map<String, Object> model, @ModelAttribute Preference preference) throws ParseException {
+		List<Preference> listaPreferences;
+		listaPreferences = srvPreference.findByName(preference.getClothingType().getName());		
+		if (listaPreferences.isEmpty()) {
+			model.put("mensaje", "No se encontraron registros.");
+		}
+		model.put("listaPreferences", listaPreferences);
 		return "preferenceList";
 	}
 	
 	@RequestMapping("/irRegistrar")
 	public String irRegistrar(Model model) {
 		model.addAttribute("listaMarks", srvMark.findAll());
-		//model.addAttribute("listaCustomers", srvCustomer.findAll());
 		model.addAttribute("listaClothingTypes", srvClothingType.findAll());
 		model.addAttribute("mark", new Mark());
-		model.addAttribute("customer", new Customer());
 		model.addAttribute("clothingType", new ClothingType());
 		model.addAttribute("preference", new Preference());
 		return "preference";
@@ -70,15 +84,13 @@ public class PreferenceController {
 	public String registrar(@ModelAttribute @Valid Preference preference, BindingResult binRes, Model model) throws ParseException {
 		if (binRes.hasErrors()) {
 			model.addAttribute("listaMarks", srvMark.findAll());
-			//model.addAttribute("listaCustomers", srvCustomer.findAll());
 			model.addAttribute("listaClothingTypes", srvClothingType.findAll());
 			return "preference";
 		}
 		else {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			System.out.println(auth.getName());
-			Customer cust = new Customer();
-			preference.setCustomer(cust);
+			Customer customer = srvCustomer.findByUsername(auth.getName());
+			preference.setCustomer(customer);
 			if (srvPreference.insert(preference)) {
 				return "redirect:/preferences/listar";
 			}
@@ -98,7 +110,6 @@ public class PreferenceController {
 		}
 		else {
 			model.addAttribute("listaMarks", srvMark.findAll());
-			//model.addAttribute("listaCustomers", srvCustomer.findAll());
 			model.addAttribute("listaClothingTypes", srvClothingType.findAll());
 			model.addAttribute("preference", objPreference);
 			return "preference";
@@ -110,13 +121,17 @@ public class PreferenceController {
 		try {
 			if (id != null && id > 0) {
 				srvPreference.delete(id);
-				model.put("listaPreferences", srvPreference.findAll());
+				Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+				Customer customer = srvCustomer.findByUsername(auth.getName());
+				model.put("listaPreferences", srvPreference.findByCustomer(customer));
 			}
 		}
 		catch (Exception ex) {
 			System.out.println(ex.getMessage());
 			model.put("mensaje", "Ocurrió un error mientras se intentaba eliminar la preferencia.");
-			model.put("listaPreferences", srvPreference.findAll());
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			Customer customer = srvCustomer.findByUsername(auth.getName());
+			model.put("listaPreferences", srvPreference.findByCustomer(customer));
 		}
 		return "redirect:/preferences/listar";
 	}

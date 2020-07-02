@@ -1,7 +1,6 @@
 package pe.edu.upc.spring.controller;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -139,7 +137,7 @@ public class ClothingController {
 			model.addAttribute("listaDiscounts", srvDiscount.findAll());
 			model.addAttribute("listaCommerces", srvCommerce.findAll());
 			model.addAttribute("listaClothingTypes", srvClothingType.findAll());
-			model.addAttribute("clothing", objClothing);
+			model.addAttribute("clothing", objClothing.get());
 			return "clothing";
 		}
 	}
@@ -160,13 +158,12 @@ public class ClothingController {
 		return "redirect:/clothings/listar";
 	}
 	
-	@RequestMapping("/sizesByClothingType") @ResponseBody
-	public List<Size> sizesByClothingType(@RequestParam(value="clothingTypeId", required=true) int clothingTypeId) 
-			throws ParseException {
+	/*@RequestMapping("/sizesByClothingType")
+	public String sizesByClothingType(@RequestParam(value="clothingTypeId", required=true) int clothingTypeId, Model model) {
 		List<Size> listaSizes = new ArrayList<Size>();
 		Optional<ClothingType> clothingType = srvClothingType.findById(clothingTypeId);
 		if (clothingType != null)
-			listaSizes = srvSize.findByClothingType(clothingType.get());
-		return listaSizes;
-	}
+			model.addAttribute("listaSizes", srvSize.findByClothingType(clothingType.get()));
+		return "clothing";
+	}*/
 }

@@ -14,15 +14,18 @@ import pe.edu.upc.spring.model.Preference;
 
 @Repository
 public interface IPreferenceRepository extends JpaRepository<Preference, Integer> {
-	@Query("from Preference a where a.enabled = true order by a.clothingType.name")
+	@Query("from Preference a where a.enabled = true order by a.clothingType.name, a.mark.name")
 	List<Preference> findAll();
 	
-	@Query("from Preference a where a.mark = :mark and a.enabled = true order by a.clothingType.name")
+	@Query("from Preference a where (lower(a.mark.name) like lower(concat('%',:name,'%')) or lower(a.clothingType.name) like lower(concat('%',:name,'%'))) and a.enabled = true order by a.clothingType.name, a.mark.name")
+	List<Preference> findByName(@Param("name") String name);
+	
+	@Query("from Preference a where a.mark = :mark and a.enabled = true order by a.clothingType.name, a.mark.name")
 	List<Preference> findByMark(@Param("mark") Mark mark);
 	
-	@Query("from Preference a where a.customer = :customer and a.enabled = true order by a.clothingType.name")
+	@Query("from Preference a where a.customer = :customer and a.enabled = true order by a.clothingType.name, a.mark.name")
 	List<Preference> findByCustomer(@Param("customer") Customer customer);
 	
-	@Query("from Preference a where a.clothingType = :clothingType and a.enabled = true order by a.clothingType.name")
+	@Query("from Preference a where a.clothingType = :clothingType and a.enabled = true order by a.clothingType.name, a.mark.name")
 	List<Preference> findByClothingType(@Param("clothingType") ClothingType clothingType);
 }

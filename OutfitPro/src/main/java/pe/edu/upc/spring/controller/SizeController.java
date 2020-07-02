@@ -17,9 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import pe.edu.upc.spring.model.ClothingType;
 import pe.edu.upc.spring.model.Size;
-import pe.edu.upc.spring.service.IClothingTypeService;
 import pe.edu.upc.spring.service.ISizeService;
 
 @Controller
@@ -28,8 +26,6 @@ public class SizeController {
 
 	@Autowired
 	private ISizeService srvSize;
-	@Autowired
-	private IClothingTypeService srvClothingType;
 	
 	@RequestMapping("/")
 	public String irSize(Map<String, Object> model) {
@@ -57,8 +53,6 @@ public class SizeController {
 	
 	@RequestMapping("/irRegistrar")
 	public String irRegistrar(Model model) {
-		model.addAttribute("listaClothingTypes", srvClothingType.findAll());
-		model.addAttribute("clothingType", new ClothingType());
 		model.addAttribute("size", new Size());
 		return "size";
 	}
@@ -66,7 +60,6 @@ public class SizeController {
 	@RequestMapping("/registrar")
 	public String registrar(@ModelAttribute @Valid Size size, BindingResult binRes, Model model) throws ParseException {
 		if (binRes.hasErrors()) {
-			model.addAttribute("listaClothingTypes", srvClothingType.findAll());
 			return "size";
 		}
 		else {
@@ -89,7 +82,6 @@ public class SizeController {
 			return "redirect:/sizes/listar";
 		}
 		else {
-			model.addAttribute("listaClothingTypes", srvClothingType.findAll());
 			model.addAttribute("size", objSize);
 			return "size";
 		}

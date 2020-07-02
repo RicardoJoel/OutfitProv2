@@ -13,12 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="Consulting")
@@ -30,31 +25,21 @@ public class Consulting implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@NotNull(message="Campo obligatorio")
-	@Past(message="No puede seleccionar un día que no existe")
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	@Column(nullable=false)
-	private Date initDate;
-
-	@Past(message="No puede seleccionar un día que no existe")
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern="yyyy-MM-dd")
-	@Column(nullable=true)
-	private Date endDate;
+	@ManyToOne @JoinColumn(nullable=false)
+	private Customer customer;
 	
-	@Min(value=0, message="El valor debe estar entre 0 y 5")
-	@Max(value=5, message="El valor debe estar entre 0 y 5")
-	@Column(nullable=false, columnDefinition = "integer default 0")
-	private int calification;
-	
-	@NotNull(message="Debes elegir una opción")
+	@NotNull(message="Debes elegir un asesor")
 	@ManyToOne @JoinColumn(nullable=false)
 	private Assessor assessor;
 	
-	@NotNull(message="Debes elegir una opción")
-	@ManyToOne @JoinColumn(nullable=false)
-	private Customer customer;
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable=false)
+	private Date dateTime;
+	
+	//@Min(value=0, message="El valor debe estar entre 0 y 5")
+	//@Max(value=5, message="El valor debe estar entre 0 y 5")
+	@Column(nullable=false, columnDefinition = "integer default 0")
+	private int calification;
 
 	@Column(nullable=false, columnDefinition = "boolean default true")
 	private boolean enabled = true;
@@ -64,19 +49,14 @@ public class Consulting implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Consulting(int id,
-			@NotNull(message = "Campo obligatorio") @Past(message = "No puede seleccionar un día que no existe") Date initDate,
-			@Past(message = "No puede seleccionar un día que no existe") Date endDate,
-			@Min(value = 0, message = "El valor debe estar entre 0 y 5") @Max(value = 5, message = "El valor debe estar entre 0 y 5") int calification,
-			@NotNull(message = "Debes elegir una opción") Assessor assessor,
-			@NotNull(message = "Debes elegir una opción") Customer customer, boolean enabled) {
+	public Consulting(int id, Customer customer, @NotNull(message = "Debes elegir un asesor") Assessor assessor,
+			Date dateTime, int calification, boolean enabled) {
 		super();
 		this.id = id;
-		this.initDate = initDate;
-		this.endDate = endDate;
-		this.calification = calification;
-		this.assessor = assessor;
 		this.customer = customer;
+		this.assessor = assessor;
+		this.dateTime = dateTime;
+		this.calification = calification;
 		this.enabled = enabled;
 	}
 
@@ -88,28 +68,12 @@ public class Consulting implements Serializable {
 		this.id = id;
 	}
 
-	public Date getInitDate() {
-		return initDate;
+	public Customer getCustomer() {
+		return customer;
 	}
 
-	public void setInitDate(Date initDate) {
-		this.initDate = initDate;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public int getCalification() {
-		return calification;
-	}
-
-	public void setCalification(int calification) {
-		this.calification = calification;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	public Assessor getAssessor() {
@@ -120,12 +84,20 @@ public class Consulting implements Serializable {
 		this.assessor = assessor;
 	}
 
-	public Customer getCustomer() {
-		return customer;
+	public Date getDateTime() {
+		return dateTime;
 	}
 
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
+	public void setDateTime(Date dateTime) {
+		this.dateTime = dateTime;
+	}
+
+	public int getCalification() {
+		return calification;
+	}
+
+	public void setCalification(int calification) {
+		this.calification = calification;
 	}
 
 	public boolean isEnabled() {
@@ -135,5 +107,5 @@ public class Consulting implements Serializable {
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
+
 }

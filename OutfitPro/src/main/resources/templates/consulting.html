@@ -2,7 +2,7 @@
 <html xmlns:lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8"></meta>
-	<title>Outfit Pro - Detalle de la consulta</title>
+	<title>Outfit Pro - Asesoría en curso</title>
 	<link rel="stylesheet" id="bootstrap-css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 	<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -10,27 +10,15 @@
 <body>
 	<div th:replace="fragments/header :: header"></div>
 	<div class="container">
-		<h3 style="margin-bottom:30px">Detalle de la consulta</h3>
-		
 		<form th:action="@{/consultings/registrar}" method="post" th:object="${consulting}">
 			<input type="hidden" th:field="*{id}"/>
-
-			<div class="form-group">
-				<label for="customer" class="col-form-label">Cliente</label>
-				<select class="form-control" th:field="*{customer.id}">
-					<option selected disabled hidden th:value="0" th:text="'-- Selecciona una opción --'"></option>
-					<option th:each="m: ${listaCustomers}" th:value="${m.id}" th:text="${m.name}"></option>
-				</select>
-				<div class="alert alert-danger" th:if="${#fields.hasErrors('customer')}" th:errors="*{customer}"></div>
-			</div>
+			<input type="hidden" th:field="*{assessor.id}"/>
+			<input type="hidden" th:field="*{dateTime}"/>
 			
-			<div class="form-group">
-				<label for="assessor" class="col-form-label">Asesor</label>
-				<select class="form-control" th:field="*{assessor.id}">
-					<option selected disabled hidden th:value="0" th:text="'-- Selecciona una opción --'"></option>
-					<option th:each="m: ${listaAssessors}" th:value="${m.id}" th:text="${m.name}"></option>
-				</select>
-				<div class="alert alert-danger" th:if="${#fields.hasErrors('assessor')}" th:errors="*{assessor}"></div>
+			<div class="row clearfix">
+				<div class="col-md-12 column" align="center">
+					<img th:src="@{/img/zoom.png}" width="700" height="500" alt="logo" align="middle"></img>
+				</div>
 			</div>
 			
 			<div class="form-group">
@@ -41,8 +29,7 @@
 			
 			<div style="margin-top:30px;margin-bottom:30px">
 				<center>
-				<button type="submit" class="btn btn-primary">Guardar</button>
-				<a href="/consultings/listar" class="btn btn-secondary">Cancelar</a>
+				<button type="submit" class="btn btn-primary">Finalizar asesoría</button>
 				</center>
 			</div>
 		</form>

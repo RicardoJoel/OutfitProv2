@@ -35,9 +35,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/clothingTypes/**").access("hasRole('ROLE_ADMIN')")
 				.antMatchers("/clothings/**").access("hasRole('ROLE_ADMIN')")
 				.antMatchers("/discounts/**").access("hasRole('ROLE_ADMIN')")
-				.antMatchers("/customers/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_CSTMR')")
-				.antMatchers("/assessors/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_CSTMR')")
-				.antMatchers("/consultings/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_CSTMR')")
+				.antMatchers("/customers/**").access("hasRole('ROLE_ADMIN')")
+				.antMatchers("/assessors/**").access("hasRole('ROLE_ADMIN')")
+				.antMatchers("/preferences/**").access("hasRole('ROLE_CSTMR')")
+				.antMatchers("/consultings/**").access("hasRole('ROLE_CSTMR')")
 				.antMatchers("/sales/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_CSTMR')").and()
 				.formLogin().successHandler(successHandler).loginPage("/login").loginProcessingUrl("/login").defaultSuccessUrl("/")
 				.permitAll().and().logout().logoutSuccessUrl("/login").permitAll().and().exceptionHandling().accessDeniedPage("/error_403");

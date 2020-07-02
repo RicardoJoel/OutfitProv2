@@ -98,7 +98,7 @@ public class ClothingServiceImpl implements IClothingService {
 	@Override
 	@Transactional
 	public String saveImage(MultipartFile imageFile) throws Exception {
-		String folder = "D:/Ricardo/sts-workspace3/OutfitPro/src/main/resources/static/img/";
+		String folder = "C:/Users/Roxana/git/repository/OutfitPro/src/main/resources/static/img/clothings/";
 		String ext = FilenameUtils.getExtension(imageFile.getOriginalFilename());
 		File temp = File.createTempFile("clt-", '.' + ext, new File(folder));
 		Path path = Paths.get(folder + temp.getName());

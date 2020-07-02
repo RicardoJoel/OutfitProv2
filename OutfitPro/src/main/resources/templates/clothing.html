@@ -35,6 +35,7 @@
 				<label for="size" class="col-form-label">Talla</label>
 				<select id="slt-size" class="form-control" th:field="*{size.id}">
 					<option selected disabled hidden th:value="0" th:text="'-- Selecciona una opción --'"></option>
+					<option th:each="m: ${listaSizes}" th:value="${m.id}" th:text="${m.name}"></option>
 				</select>
 				<div class="alert alert-danger" th:if="${#fields.hasErrors('size')}" th:errors="*{size}"></div>
 			</div>
@@ -105,11 +106,11 @@
 				<div class="alert alert-danger" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></div>
 			</div>
 		
-			<!-- div class="row clearfix">
+			<div class="row clearfix">
 				<div class="col-md-12 column" align="center">
-					<img th:src="@{/img/clt-2260061120834213010.jpg}" width="700" height="500" alt="Imagen no disponible" align="middle"></img>
+					<img th:src="${'/img/clothings/'} + *{image}" height="500" alt="Imagen no disponible" align="middle" id="image"></img>
 				</div>
-			</div-->
+			</div>
 			
 			<div style="margin-top:30px;margin-bottom:30px">
 				<center>

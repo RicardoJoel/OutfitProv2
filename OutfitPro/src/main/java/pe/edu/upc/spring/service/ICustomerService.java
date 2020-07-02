@@ -11,4 +11,5 @@ public interface ICustomerService {
 	public Optional<Customer> findById(int id);
 	List<Customer> findAll();
 	List<Customer> findByName(String name);
+	Customer findByUsername(String username);
 }

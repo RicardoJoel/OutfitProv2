@@ -45,6 +45,12 @@ public class ConsultingServiceImpl implements IConsultingService {
 
 	@Override
 	@Transactional(readOnly=true)
+	public List<Consulting> findByName(String name) {
+		return rpsConsulting.findByName(name);
+	}
+	
+	@Override
+	@Transactional(readOnly=true)
 	public List<Consulting> findAll() {
 		return rpsConsulting.findAll();
 	}

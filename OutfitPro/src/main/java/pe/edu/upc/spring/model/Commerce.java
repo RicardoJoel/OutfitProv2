@@ -28,12 +28,14 @@ public class Commerce implements Serializable {
 	@Column(length=50, nullable=false)
 	private String name;
 
+	//@Pattern(regexp="[a-zA-Z0-9]", message = "Debe contener solo dígitos o letras")
 	@Size(max=11, message="Máximo 11 caracteres")
 	@NotEmpty(message="Campo obligatorio")
 	@NotBlank(message="No puede estar en blanco")
 	@Column(length=11, nullable=false)
 	private String ruc;
 	
+	//@Pattern(regexp="[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2, 4}", message = "Dirección de correo no válida")
 	@Size(max=50, message="Máximo 50 caracteres")
 	@NotEmpty(message="Campo obligatorio")
 	@NotBlank(message="No puede estar en blanco")

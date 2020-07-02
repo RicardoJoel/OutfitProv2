@@ -37,7 +37,6 @@
 						<thead>
 							<tr>
 								<th class="text-center">Nombre</th>
-								<th class="text-center">Tipo de prenda</th>
 								<th class="text-center">Operaciones</th>
 							</tr>
 						</thead>
@@ -45,7 +44,6 @@
 						<tbody>
 							<tr th:each="due: ${listaSizes}">
 								<td th:text="${due.name}"></td>
-								<td th:text="${due.clothingType.name}"></td>
 								<td style="text-align: center">
 									<a th:href="@{'/sizes/modificar/' + ${due.id}}">
 										<span class="glyphicon glyphicon-edit" title="Editar"></span>

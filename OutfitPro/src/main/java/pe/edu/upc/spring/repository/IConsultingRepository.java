@@ -13,12 +13,15 @@ import pe.edu.upc.spring.model.Consulting;
 
 @Repository
 public interface IConsultingRepository extends JpaRepository<Consulting, Integer> {
-	@Query("from Consulting a where a.enabled = true order by a.customer.name")
+	@Query("from Consulting a where a.enabled = true order by a.dateTime desc")
 	List<Consulting> findAll();
 	
-	@Query("from Consulting a where a.assessor = :assessor and a.enabled = true order by a.customer.name")
+	@Query("from Consulting a where lower(a.assessor.name) like lower(concat('%',:name,'%')) and a.enabled = true order by a.dateTime desc")
+	List<Consulting> findByName(@Param("name") String name);
+	
+	@Query("from Consulting a where a.assessor = :assessor and a.enabled = true order by a.dateTime desc")
 	List<Consulting> findByAssessor(@Param("assessor") Assessor assessor);
 	
-	@Query("from Consulting a where a.customer = :customer and a.enabled = true order by a.customer.name")
+	@Query("from Consulting a where a.customer = :customer and a.enabled = true order by a.dateTime desc")
 	List<Consulting> findByCustomer(@Param("customer") Customer customer);
 }

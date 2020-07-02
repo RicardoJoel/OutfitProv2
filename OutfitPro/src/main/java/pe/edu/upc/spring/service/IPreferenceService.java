@@ -13,6 +13,7 @@ public interface IPreferenceService {
 	public void delete(int id);
 	public Optional<Preference> findById(int id);
 	List<Preference> findAll();
+	List<Preference> findByName(String name);
 	List<Preference> findByMark(Mark mark);
 	List<Preference> findByCustomer(Customer customer);
 	List<Preference> findByClothingType(ClothingType clothingType);
